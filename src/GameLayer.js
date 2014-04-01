@@ -4,8 +4,16 @@ var GameLayer = cc.LayerColor.extend({
         this.setPosition( new cc.Point( 0, 0 ) );
 
         this.Floor = new Floor();
-        this.Floor.setPosition( cc.p( 0, 0 ) );
+        // this.Floor.setPosition( cc.p( 0, - 900 ) );
+        this.Floor.setPosition( cc.p( 0, 000 ) );
+        this.Floor.scheduleUpdate();
+
         this.addChild( this.Floor );
+
+        this.Monster = new Monster( this.Floor );
+        this.Monster.setPosition( cc.p( 700, 60+10+400 ));
+        this.addChild( this.Monster );
+        this.Monster.scheduleUpdate();
 
         this.Player = new Player( this.Floor );
         this.Player.setPosition( cc.p( 400, 60+10+400 ));
@@ -13,11 +21,6 @@ var GameLayer = cc.LayerColor.extend({
         this.Player.scheduleUpdate();
 
         this.setKeyboardEnabled( true );
-
-        console.log(this.Floor);
-        this.Monster = new Monster( this.Floor );
-        this.Monster.setPosition( cc.p( 700, 60+10+400 ));
-        this.addChild( this.Monster );
 
         return true;
     },

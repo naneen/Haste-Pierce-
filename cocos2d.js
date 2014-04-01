@@ -15,6 +15,7 @@
             'src/GameLayer.js',
             'src/Floor.js',
             'src/Player.js',
+            'src/Box.js',
             'src/Monster.js'   //add your own files in order here
         ]
     };
