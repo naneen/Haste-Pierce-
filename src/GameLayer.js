@@ -4,10 +4,8 @@ var GameLayer = cc.LayerColor.extend({
         this.setPosition( new cc.Point( 0, 0 ) );
 
         this.Floor = new Floor();
-        // this.Floor.setPosition( cc.p( 0, - 900 ) );
-        this.Floor.setPosition( cc.p( 0, 000 ) );
+        this.Floor.setPosition( cc.p( 0, -100 ) );
         this.Floor.scheduleUpdate();
-
         this.addChild( this.Floor );
 
         this.Monster = new Monster( this.Floor );
