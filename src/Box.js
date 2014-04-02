@@ -1,9 +1,12 @@
 
 var Box = cc.Sprite.extend({
 
-	ctor: function( num ){
+	ctor: function( h, w ){
 
 		this._super();
+        this.height = h;
+        this.width = w;
+        var num = h + w;
 
 		if( num % 3 == 0 ){
             this.initWithFile( 'images/box1.png' );
@@ -20,6 +23,14 @@ var Box = cc.Sprite.extend({
 	getPosition: function(){
 		var pos = this.getBoundingBoxToWorld();
 		return [ pos.x, pos.y ];
-	}
+    },
+
+    getHeight: function(){
+        return this.height;
+    },
+
+    getWidth: function(){
+        return this.width;
+    }
 
 });

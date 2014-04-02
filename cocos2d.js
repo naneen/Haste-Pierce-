@@ -13,10 +13,13 @@
         //SingleEngineFile:'',
         appFiles:[
             'src/GameLayer.js',
+            'src/resource.js',
             'src/Floor.js',
             'src/Player.js',
             'src/Box.js',
-            'src/Monster.js'   //add your own files in order here
+            'src/Monster.js',
+            'src/Background.js',
+            'src/Ball.js'   //add your own files in order here
         ]
     };
 
