@@ -14,10 +14,10 @@
         appFiles:[
             'src/GameLayer.js',
             'src/resource.js',
-            'src/Floor.js',
+            'src/floor.js',
             'src/Player.js',
             'src/Box.js',
-            'src/Monster.js',
+            'src/monster.js',
             'src/Background.js',
             'src/Ball.js'   //add your own files in order here
         ]

@@ -13,11 +13,11 @@ var Player = cc.Sprite.extend({
 		//this.movingAction = this.createAnimationAction();
 	},
 
-	update: function(dt){
+	update: function( dt ){
 
 		var position = this.getPosition();
 
-		if(!this.floor.checkOn( position.x, position.y - this.gravity )){
+		if(!this.floor.checkOn( this.getBoundingBoxToWorld() )){
 			this.setPosition( cc.p( position.x, position.y - this.gravity ));
 		}
 
@@ -54,9 +54,27 @@ var Player = cc.Sprite.extend({
 	checkDie: function( monster ){
 		var thisPos = this.getPosition();
 		var monPos = monster.getPosition();
-        console.log("check die");
+
 		return ( Math.abs( thisPos.x - monPos.x ) <= 25 && Math.abs( thisPos.y - monPos.y ) <= 5 );
-	} 
+	},
+
+	checkCollect: function( ballPosition ){
+
+		// console.log("checkCollect")
+		var playerPosition = this.getBoundingBoxToWorld();
+		// console.log("max ball:"+cc.rectGetMaxX( ballPosition));
+		// console.log("min player: "+cc.rectGetMinX( playerPosition ));
+		if( this.status == 1 && cc.rectGetMaxX( ballPosition ) == cc.rectGetMinX( playerPosition ) ){ //left player
+			// console.log("from left side");
+			return true;
+		}
+		
+		else if( this.status == 2 && cc.rectGetMinX( ballPosition ) == cc.rectGetMaxX( playerPosition ) ){ //right
+			// console.log("from right side");
+			return true;
+		}
+		return false;
+	}
 
 });
 

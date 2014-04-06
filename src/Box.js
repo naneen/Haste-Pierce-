@@ -18,19 +18,6 @@ var Box = cc.Sprite.extend({
             this.initWithFile( 'images/box3.png' );
         }
         this.setAnchorPoint( cc.p( 0.5, 1 ) );
-	},
-
-	getPosition: function(){
-		var pos = this.getBoundingBoxToWorld();
-		return [ pos.x, pos.y ];
-    },
-
-    getHeight: function(){
-        return this.height;
-    },
-
-    getWidth: function(){
-        return this.width;
-    }
+	}
 
 });

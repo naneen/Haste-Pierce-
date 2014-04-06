@@ -10,14 +10,13 @@ var Monster = cc.Sprite.extend({
 		this.gravity = 5;
 		this.randomSide = Math.round(Math.random());
 		this.velocity = Math.random() + 3.7;
-		this.status = 0;
 	},
 
 	update: function( dt ){
 
 		var position = this.getPosition();
 
-		if( !this.floor.checkOn( position.x, position.y - this.gravity )){
+		if(!this.floor.checkOn( this.getBoundingBoxToWorld() )){
 			this.setPosition( cc.p( position.x, position.y - this.gravity ));
 		}
 		else if( this.randomSide == 0){
@@ -34,14 +33,6 @@ var Monster = cc.Sprite.extend({
 		else if( position.x >= 800 ){
 			this.setPosition( cc.p( 10, position.y));
 		}
-
-		// status
-		// if( this.status == 1 ){
-		// 	this.setPosition( cc.p( position.x - 5, position.y ));
-		// }
-		// else if( this.status == 2 ){
-		// 	this.setPosition( cc.p( position.x + 5, position.y ));
-		// }
 	}
 
 });
