@@ -2,11 +2,13 @@ var GameLayer = cc.LayerColor.extend({
     init: function() {
         this._super( new cc.Color4B( 127, 127, 127, 255 ) );
         this.setPosition( new cc.Point( 0, 0 ) );
+        this.score = 0;
 
         this.initFloor();
         this.initMonster();
         this.initBall();
         this.initPlayer();
+        this.initScore();
         this.initBackgound();
 
         this.setKeyboardEnabled( true );
@@ -60,15 +62,22 @@ var GameLayer = cc.LayerColor.extend({
         this.addChild( this.Background );
     },
 
+    initScore: function(){
+        this.scoreLabel = cc.LabelTTF.create( '0', 'Arial', 40 );
+        this.scoreLabel.setPosition( new cc.Point( 50, 550 ) );
+        this.addChild( this.scoreLabel, 1);
+        this.scoreLabel.setString( this.score );
+    },
+
     onKeyDown: function(e){
         if( e == cc.KEY.left ){
-            this.Player.status = 1;
+            this.Player.switchStatus( "left" );
         }
         else if( e == cc.KEY.right ){
-            this.Player.status = 2;
+            this.Player.switchStatus( "right" );
         }
         else if( e == cc.KEY.space ){
-            this.Player.status = 3;
+            this.Player.switchStatus( "spacebar" );
         }
     },
 
@@ -81,8 +90,12 @@ var GameLayer = cc.LayerColor.extend({
 
     ballDisappear: function(){
         this.removeChild( this.ball );
+        this.score++;
+        this.scoreLabel.setString( this.score );
         console.log("pass ball");
-    }
+    },
+
+    
 
 
 });

@@ -1,4 +1,4 @@
-var Floor = cc.Sprite.extend({
+var Floor = cc.Node.extend({
     
     ctor: function() {
 
