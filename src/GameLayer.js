@@ -22,7 +22,7 @@ var GameLayer = cc.LayerColor.extend({
             this.endGame();
         }
 
-        if( this.Player.checkCollect( this.Ball.getBoundingBoxToWorld() ) ){
+        if( this.Player.checkCollect( this.Ball ) ){
             this.ballDisappear();
         }
 
@@ -44,7 +44,8 @@ var GameLayer = cc.LayerColor.extend({
 
     initBall: function(){
         this.Ball = new Ball( this.Floor );
-        this.Ball.setPosition( cc.p( 500, 60+10+400 ));
+        this.Ball.setPosition( cc.p( Math.round(( Math.random()+0.1 )*500 ), 60+10+400 ));
+        console.log("ball -> x:"+this.Ball.getPosition().x + " y:" +this.Ball.getPosition().y);
         this.addChild( this.Ball, 1 );
         this.Ball.scheduleUpdate();
     },
@@ -81,6 +82,10 @@ var GameLayer = cc.LayerColor.extend({
         }
     },
 
+    onKeyUp: function(e){
+        // this.Player.stopWalk();
+    },
+
     endGame: function(){
         this.Player.stop();
         this.Player.unscheduleUpdate();
@@ -89,15 +94,11 @@ var GameLayer = cc.LayerColor.extend({
     },
 
     ballDisappear: function(){
-        this.removeChild( this.ball );
+        this.removeChild( this.Ball );
         this.score++;
         this.scoreLabel.setString( this.score );
         console.log("pass ball");
-    },
-
-    
-
-
+    }
 });
 
 var StartScene = cc.Scene.extend({

@@ -4,72 +4,48 @@ var Floor = cc.Node.extend({
 
         this._super();
         this.WIDTH = 28;
-        this.HEIGHT = 3;
-        this.blogPosition = [];
+        this.HEIGHT = 5;
+        this.boxPosition = [];
 
-        this.map();
-
-        
+        this.map1();  
     },
 
-    map: function(){
-        this.MAP = [
+    map1: function(){
+        this.MAP1 = [
             '############################',
-            '#########...################',
+            '########....################',
+            '################....########',
+            '####....####################',
             '############################'
-            // '###.....####################',
-            // '############################'
-            // '############################',
-            // '############################',
-            // '############################',
-            // '############################',
-            // '############################',
-            // '############################',
-            // '############################',
-            // '############################'
         ];
 
         for( var h = 0; h < this.HEIGHT; h++ ){
             for( var w = 0; w < this.WIDTH; w++ ){
-                if( this.MAP[h][w] == '#' ){
+                if( this.MAP1[h][w] == '#' ){
                     var box = new Box( h, w );
                     box.setPosition( new cc.p( w * 30, (this.HEIGHT - h) * 200 ) );
 
-                    this.blogPosition.push( box );
+                    this.boxPosition.push( box );
                     this.addChild( box );
                 }
             }
         }
     },
 
-    // checkOn: function( x, y ){
-
-    //     for( var i = 0; i < this.blogPosition.length; i++ ){
-
-    //         if( this.blogPosition[i].getPosition()[0] + 10 >= x && this.blogPosition[i].getPosition()[0] - 20 <= x
-    //             && this.blogPosition[i].getPosition()[1] + 25 >= y && this.blogPosition[i].getPosition()[1] - 5 <= y){
-    //             return true;
-    //         }
-
-    //     }
-    //     return false;
-    // },
     checkOn: function( bb ){
 
-        // var hover = 10;
+        for( var i = 0; i < this.boxPosition.length; i++ ){
 
-        for( var i = 0; i < this.blogPosition.length; i++ ){
-
-            var item = this.blogPosition[i];
+            var item = this.boxPosition[i];
             var itemBb = item.getBoundingBoxToWorld();
-            
+
             var isOnFloor = cc.rectGetMaxY(itemBb) == cc.rectGetMinY(bb) &&
                 cc.rectGetMinX(itemBb) < cc.rectGetMaxX(bb) &&
                 cc.rectGetMaxX(itemBb) > cc.rectGetMinX(bb);
+
             if(isOnFloor){
                 return true;
             }
-
         }
         return false;
     },

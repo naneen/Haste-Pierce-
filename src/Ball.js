@@ -7,6 +7,7 @@ var Ball = cc.Sprite.extend({
 		this.setAnchorPoint( cc.p( 0.5, 0 ));
 		this.floor = floor;
 		this.gravity = 5;
+		this.isAlive = true;
 	},
 
 	update: function( dt ){

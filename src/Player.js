@@ -8,8 +8,8 @@ var Player = cc.Sprite.extend({
 		this.setAnchorPoint( cc.p( 0.5, 0 ) );
 		this.gravity = 5;
 		this.floor = floor;
-		this.started = true;
-		this.status = Player.STATUS.RIGHT;
+		this.status = Player.STATUS.START;
+		this.key = Player.KEY.RIGHT;
 		//this.movingAction = this.createAnimationAction();
 	},
 
@@ -26,7 +26,7 @@ var Player = cc.Sprite.extend({
 			this.walk( position ); //เดิน
 		}
 		// spacebar
-		// if( this.status == 3 ){
+		// if( this.key == 3 ){
 		// 	this.floor.clearBox( position.x, position.y );
 		// }
 	},
@@ -41,16 +41,21 @@ var Player = cc.Sprite.extend({
 	},
 
 	walk: function( position ){
-		if( this.status == Player.STATUS.LEFT && this.started == true ){
+		if( this.key == Player.KEY.LEFT && this.status == Player.STATUS.START ){
 			this.setPosition( cc.p( position.x - 5, position.y ));
 		}
-		else if( this.status == Player.STATUS.RIGHT && this.started == true ){
+		else if( this.key == Player.KEY.RIGHT && this.status == Player.STATUS.START ){
 			this.setPosition( cc.p( position.x + 5, position.y ));
 		}
 	},
 
+	// stopWalk: function(){
+	// 	this.status = Player.STATUS.BREAK;
+	// 	this.stopAction( this.movingAction );
+	// },
+
 	stop: function(){
-		this.started = false;
+		this.status = Player.STATUS.STOP;
 		this.stopAction( this.movingAction );
 	},
 
@@ -61,42 +66,50 @@ var Player = cc.Sprite.extend({
 		return ( Math.abs( thisPos.x - monPos.x ) <= 25 && Math.abs( thisPos.y - monPos.y ) <= 5 );
 	},
 
-	checkCollect: function( ballPosition ){
-
+	checkCollect: function( ball ){
+		var ballPosition = ball.getBoundingBoxToWorld();
 		var playerPosition = this.getBoundingBoxToWorld();
 
-		if( this.status == Player.STATUS.LEFT && cc.rectGetMaxX( ballPosition ) == cc.rectGetMinX( playerPosition ) 
-			&& cc.rectGetMinY( ballPosition ) == cc.rectGetMinY( playerPosition ) ){ //left
-			return true;
-		}
+		if( ball.isAlive ){
+			if(this.key == Player.KEY.LEFT && cc.rectOverlapsRect(playerPosition,ballPosition)){
+				ball.isAlive = false;
+				return true;
+			}
 		
-		else if( this.status == Player.STATUS.RIGHT && cc.rectGetMinX( ballPosition ) == cc.rectGetMaxX( playerPosition ) 
-			&& cc.rectGetMinY( ballPosition ) == cc.rectGetMinY( playerPosition ) ){ //right
-			return true;
+			else if(this.key == Player.KEY.RIGHT && cc.rectOverlapsRect(playerPosition,ballPosition)){
+				
+				ball.isAlive = false;
+				return true;
+			}
 		}
 		return false;
 	},
 
 	switchStatus: function( direction ){
 		if( direction == "left" ){
-			this.status = Player.STATUS.LEFT;
+			this.key = Player.KEY.LEFT;
 		}
 		else if( direction == "right" ){
-			this.status = Player.STATUS.RIGHT;
+			this.key = Player.KEY.RIGHT;
 		}
 		else if( direction == "spacebar" ){
-			this.status = Player.STATUS.SPACE;
+			this.key = Player.KEY.SPACE;
 		}
 	}
 
 });
 
-Player.STATUS = {
+Player.KEY = {
 	LEFT: 1,
 	RIGHT: 2,
 	SPACE: 3
 };
 
+Player.STATUS = {
+	START: 1,
+	STOP: 2,
+	BREAK: 3
+};
 
 
 
