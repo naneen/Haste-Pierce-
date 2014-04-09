@@ -1,27 +1,36 @@
 var Floor = cc.Node.extend({
     
-    ctor: function() {
+    ctor: function( map, player, monster ) {
 
         this._super();
         this.WIDTH = 28;
         this.HEIGHT = 5;
         this.boxPosition = [];
 
-        this.map1();  
+        this.MAP = map;
+        this.player = player;
+        this.monster = monster;
+
+        this.addMap();
+        this.status = Floor.STATUS.IN;
+        this.velocity = 1;
     },
 
-    map1: function(){
-        this.MAP1 = [
-            '############################',
-            '########....################',
-            '################....########',
-            '####....####################',
-            '############################'
-        ];
+    moveFloor: function(){
+        var floorPos = this.getPosition();
+        var monsterPos = this.monster.getPosition();
+
+        if( this.status = Floor.STATUS.IN ){
+                this.setPosition( cc.p( floorPos.x, floorPos.y + this.velocity ) );
+                this.monster.setPosition( cc.p( monsterPos.x, monsterPos.y + this.velocity ));
+        }
+    },
+
+    addMap: function(){
 
         for( var h = 0; h < this.HEIGHT; h++ ){
             for( var w = 0; w < this.WIDTH; w++ ){
-                if( this.MAP1[h][w] == '#' ){
+                if( this.MAP[h][w] == '#' ){
                     var box = new Box( h, w );
                     box.setPosition( new cc.p( w * 30, (this.HEIGHT - h) * 200 ) );
 
@@ -36,12 +45,10 @@ var Floor = cc.Node.extend({
 
         for( var i = 0; i < this.boxPosition.length; i++ ){
 
-            var item = this.boxPosition[i];
-            var itemBb = item.getBoundingBoxToWorld();
+            var box = this.boxPosition[i];
+            var boxBb = box.getBoundingBoxToWorld();
 
-            var isOnFloor = cc.rectGetMaxY(itemBb) == cc.rectGetMinY(bb) &&
-                cc.rectGetMinX(itemBb) < cc.rectGetMaxX(bb) &&
-                cc.rectGetMaxX(itemBb) > cc.rectGetMinX(bb);
+            var isOnFloor = cc.rectOverlapsRect( bb, boxBb );
 
             if(isOnFloor){
                 return true;
@@ -54,6 +61,11 @@ var Floor = cc.Node.extend({
 
     }
 });
+
+Floor.STATUS = {
+    IN: 1,
+    OUT: 2
+}
 
 
 

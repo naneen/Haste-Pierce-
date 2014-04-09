@@ -1,13 +1,15 @@
 var GameLayer = cc.LayerColor.extend({
     init: function() {
+
         this._super( new cc.Color4B( 127, 127, 127, 255 ) );
         this.setPosition( new cc.Point( 0, 0 ) );
         this.score = 0;
 
-        this.initFloor();
+        this.initPlayer();
         this.initMonster();
         this.initBall();
-        this.initPlayer();
+        this.initFloor();
+
         this.initScore();
         this.initBackgound();
 
@@ -29,22 +31,45 @@ var GameLayer = cc.LayerColor.extend({
     },
 
     initFloor: function(){
-        this.Floor = new Floor();
-        this.Floor.setPosition( cc.p( 0, -90 ) );
-        // this.Floor.scheduleUpdate();
+        var MAP1 = [
+            '############################',
+            '########....################',
+            '################....########',
+            '####....####################',
+            '############################'
+        ];
+
+        var MAP2 = [
+            '###########.################',
+            '##########..################',
+            '#########...################',
+            '########....################',
+            '############################'
+        ];
+
+        this.Floor = new Floor( MAP1, this.Player, this.Monster );
+        this.Floor.setPosition( cc.p( 0, -100 ) );
         this.addChild( this.Floor, 1 );
+        this.Floor.scheduleUpdate();
+
+        this.Floor2 = new Floor( MAP2, this.Player, this.Monster );
+        this.Monster.floor = this.Floor;
+        this.Player.floor = this.Floor;
+        this.Ball.floor = this.Floor;
     },
 
     initMonster: function(){
-        this.Monster = new Monster( this.Floor );
-        this.Monster.setPosition( cc.p( 700, 60+10+400 ));
+        this.Monster = new Monster();
+        var choicePos = [ -80, 900 ];
+        var pos = Math.round( Math.random() );
+        this.Monster.setPosition( cc.p( choicePos[ pos ], 350 ));
         this.addChild( this.Monster, 1);
         this.Monster.scheduleUpdate();
     },
 
     initBall: function(){
         this.Ball = new Ball( this.Floor );
-        this.Ball.setPosition( cc.p( Math.round(( Math.random()+0.1 )*500 ), 60+10+400 ));
+        this.Ball.setPosition( cc.p( Math.round(( Math.random()+0.1 )*500 ), 350 ));
         console.log("ball -> x:"+this.Ball.getPosition().x + " y:" +this.Ball.getPosition().y);
         this.addChild( this.Ball, 1 );
         this.Ball.scheduleUpdate();
@@ -52,7 +77,7 @@ var GameLayer = cc.LayerColor.extend({
 
     initPlayer: function(){
         this.Player = new Player( this.Floor );
-        this.Player.setPosition( cc.p( 400, 60+10+400 ));
+        this.Player.setPosition( cc.p( 400, 350 ));
         this.addChild( this.Player, 1);
         this.Player.scheduleUpdate();
     },
@@ -71,6 +96,7 @@ var GameLayer = cc.LayerColor.extend({
     },
 
     onKeyDown: function(e){
+        this.Player.status = Player.STATUS.START;
         if( e == cc.KEY.left ){
             this.Player.switchStatus( "left" );
         }
@@ -82,12 +108,13 @@ var GameLayer = cc.LayerColor.extend({
         }
     },
 
-    onKeyUp: function(e){
-        // this.Player.stopWalk();
-    },
+    // onKeyUp: function(e){
+    //     this.Player.status = Player.STATUS.BREAK;
+    // },
 
     endGame: function(){
         this.Player.stop();
+        this.Monster.stop();
         this.Player.unscheduleUpdate();
         this.Monster.unscheduleUpdate();
         this.unscheduleUpdate();

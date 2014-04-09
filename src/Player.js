@@ -7,9 +7,10 @@ var Player = cc.Sprite.extend({
 		this.initWithFile( 'images/mainChar.png' );
 		this.setAnchorPoint( cc.p( 0.5, 0 ) );
 		this.gravity = 5;
-		this.floor = floor;
-		this.status = Player.STATUS.START;
+		this.floor = null;
+		this.status = Player.STATUS.BREAK;
 		this.key = Player.KEY.RIGHT;
+		this.velocity = 5;
 		//this.movingAction = this.createAnimationAction();
 	},
 
@@ -17,18 +18,17 @@ var Player = cc.Sprite.extend({
 
 		var position = this.getPosition();
 
-		if(!this.floor.checkOn( this.getBoundingBoxToWorld() )){
-			this.setPosition( cc.p( position.x, position.y - this.gravity ));
-		}
+		if( this.floor != null ){
+			if(!this.floor.checkOn( this.getBoundingBoxToWorld() )){
+				this.setPosition( cc.p( position.x, position.y - this.gravity ));
+				this.floor.moveFloor();
+			}
 
-		else{
-			this.endSide( position ); //วน
-			this.walk( position ); //เดิน
+			else{
+				this.endSide( position ); //วน
+				this.walk( position ); //เดิน
+			}
 		}
-		// spacebar
-		// if( this.key == 3 ){
-		// 	this.floor.clearBox( position.x, position.y );
-		// }
 	},
 
 	endSide: function( position ){
@@ -41,18 +41,15 @@ var Player = cc.Sprite.extend({
 	},
 
 	walk: function( position ){
-		if( this.key == Player.KEY.LEFT && this.status == Player.STATUS.START ){
-			this.setPosition( cc.p( position.x - 5, position.y ));
-		}
-		else if( this.key == Player.KEY.RIGHT && this.status == Player.STATUS.START ){
-			this.setPosition( cc.p( position.x + 5, position.y ));
+		if( this.status == Player.STATUS.START){
+			if( this.key == Player.KEY.LEFT && this.status == Player.STATUS.START ){
+				this.setPosition( cc.p( position.x - this.velocity, position.y ));
+			}
+			else if( this.key == Player.KEY.RIGHT && this.status == Player.STATUS.START ){
+				this.setPosition( cc.p( position.x + this.velocity, position.y ));
+			}
 		}
 	},
-
-	// stopWalk: function(){
-	// 	this.status = Player.STATUS.BREAK;
-	// 	this.stopAction( this.movingAction );
-	// },
 
 	stop: function(){
 		this.status = Player.STATUS.STOP;
@@ -71,13 +68,12 @@ var Player = cc.Sprite.extend({
 		var playerPosition = this.getBoundingBoxToWorld();
 
 		if( ball.isAlive ){
-			if(this.key == Player.KEY.LEFT && cc.rectOverlapsRect(playerPosition,ballPosition)){
+			if( this.key == Player.KEY.LEFT && cc.rectOverlapsRect( playerPosition, ballPosition ) ){
 				ball.isAlive = false;
 				return true;
 			}
 		
-			else if(this.key == Player.KEY.RIGHT && cc.rectOverlapsRect(playerPosition,ballPosition)){
-				
+			else if( this.key == Player.KEY.RIGHT && cc.rectOverlapsRect( playerPosition, ballPosition ) ){
 				ball.isAlive = false;
 				return true;
 			}

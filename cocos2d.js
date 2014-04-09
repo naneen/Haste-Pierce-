@@ -19,7 +19,7 @@
             'src/Box.js',
             'src/monster.js',
             'src/Background.js',
-            'src/Ball.js'   //add your own files in order here
+            'src/Ball.js'  //add your own files in order here
         ]
     };
 
