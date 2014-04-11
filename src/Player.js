@@ -67,13 +67,21 @@ var Player = cc.Sprite.extend({
 		var ballPosition = ball.getBoundingBoxToWorld();
 		var playerPosition = this.getBoundingBoxToWorld();
 
-		if( ball.isAlive ){
-			if( this.key == Player.KEY.LEFT && cc.rectOverlapsRect( playerPosition, ballPosition ) ){
-				ball.isAlive = false;
-				return true;
-			}
+		// if( ball.isAlive ){
+		// 	if( this.key == Player.KEY.LEFT && cc.rectOverlapsRect( playerPosition, ballPosition ) ){
+		// 		ball.isAlive = false;
+		// 		return true;
+		// 	}
 		
-			else if( this.key == Player.KEY.RIGHT && cc.rectOverlapsRect( playerPosition, ballPosition ) ){
+		// 	else if( this.key == Player.KEY.RIGHT && cc.rectOverlapsRect( playerPosition, ballPosition ) ){
+		// 		ball.isAlive = false;
+		// 		return true;
+		// 	}
+		// }
+		// return false;
+
+		if(ball.isAlive && cc.rectOverlapsRect( playerPosition, ballPosition )){
+			if(this.key == Player.KEY.LEFT || this.key == Player.KEY.RIGHT){
 				ball.isAlive = false;
 				return true;
 			}
