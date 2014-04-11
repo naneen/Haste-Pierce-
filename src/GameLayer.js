@@ -39,20 +39,21 @@ var GameLayer = cc.LayerColor.extend({
             '############################'
         ];
 
-        var MAP2 = [
-            '###########.################',
-            '##########..################',
-            '#########...################',
-            '########....################',
-            '############################'
-        ];
+        // var MAP2 = [
+        //     '###########.################',
+        //     '##########..################',
+        //     '#########...################',
+        //     '########....################',
+        //     '############################'
+        // ];
 
-        this.Floor = new Floor( MAP1, this.Player, this.Monster );
+        this.Floor = new Floor( MAP1, this.Player, this.Monster, this.Ball );
         this.Floor.setPosition( cc.p( 0, -100 ) );
         this.addChild( this.Floor, 1 );
         this.Floor.scheduleUpdate();
 
-        this.Floor2 = new Floor( MAP2, this.Player, this.Monster );
+        // this.Floor2 = new Floor( MAP2, this.Player, this.Monster );
+
         this.Monster.floor = this.Floor;
         this.Player.floor = this.Floor;
         this.Ball.floor = this.Floor;
@@ -97,15 +98,16 @@ var GameLayer = cc.LayerColor.extend({
 
     onKeyDown: function(e){
         this.Player.status = Player.STATUS.START;
-        if( e == cc.KEY.left ){
-            this.Player.switchStatus( "left" );
-        }
-        else if( e == cc.KEY.right ){
-            this.Player.switchStatus( "right" );
-        }
-        else if( e == cc.KEY.space ){
-            this.Player.switchStatus( "spacebar" );
-        }
+        // if( e == cc.KEY.left ){
+        //     this.Player.switchStatus( "left" );
+        // }
+        // else if( e == cc.KEY.right ){
+        //     this.Player.switchStatus( "right" );
+        // }
+        // else if( e == cc.KEY.space ){
+        //     this.Player.switchStatus( "spacebar" );
+        // }
+        this.Player.switchDirection(e);
     },
 
     // onKeyUp: function(e){

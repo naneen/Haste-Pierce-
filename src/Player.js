@@ -81,24 +81,26 @@ var Player = cc.Sprite.extend({
 		return false;
 	},
 
-	switchStatus: function( direction ){
-		if( direction == "left" ){
-			this.key = Player.KEY.LEFT;
-		}
-		else if( direction == "right" ){
-			this.key = Player.KEY.RIGHT;
-		}
-		else if( direction == "spacebar" ){
-			this.key = Player.KEY.SPACE;
-		}
+	switchDirection: function( direction ){
+		// if( direction == "left" ){
+		// 	this.key = Player.KEY.LEFT;
+		// }
+		// else if( direction == "right" ){
+		// 	this.key = Player.KEY.RIGHT;
+		// }
+		// else if( direction == "spacebar" ){
+		// 	this.key = Player.KEY.SPACE;
+		// }
+
+		this.key = direction;
 	}
 
 });
 
 Player.KEY = {
-	LEFT: 1,
-	RIGHT: 2,
-	SPACE: 3
+	LEFT: 37,
+	RIGHT: 39,
+	SPACE: 32
 };
 
 Player.STATUS = {
