@@ -42,10 +42,10 @@ var Player = cc.Sprite.extend({
 
 	walk: function( position ){
 		if( this.status == Player.STATUS.START){
-			if( this.key == Player.KEY.LEFT && this.status == Player.STATUS.START ){
+			if( this.key == Player.KEY.LEFT){
 				this.setPosition( cc.p( position.x - this.velocity, position.y ));
 			}
-			else if( this.key == Player.KEY.RIGHT && this.status == Player.STATUS.START ){
+			else if( this.key == Player.KEY.RIGHT){
 				this.setPosition( cc.p( position.x + this.velocity, position.y ));
 			}
 		}
