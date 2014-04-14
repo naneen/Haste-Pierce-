@@ -21,6 +21,7 @@ var GameLayer = cc.LayerColor.extend({
 
     update: function(){
         if( this.Player.checkDie( this.Monster ) ){
+            console.log("die");
             this.endGame();
         }
 
@@ -61,18 +62,18 @@ var GameLayer = cc.LayerColor.extend({
 
     initMonster: function(){
         this.Monster = new Monster();
-        var choicePos = [ -80, 900 ];
-        var pos = Math.round( Math.random() );
-        this.Monster.setPosition( cc.p( choicePos[ pos ], 350 ));
-        // this.addChild( this.Monster, 1);
+        // var choicePos = [ -80, 900 ];
+        // var pos = Math.round( Math.random() );
+        // this.Monster.setPosition( cc.p( choicePos[ pos ], 350 ));
+        this.addChild( this.Monster, 1);
         this.Monster.scheduleUpdate();
     },
 
     initBall: function(){
         this.Ball = new Ball( this.Floor );
-        this.Ball.setPosition( cc.p( Math.round(( Math.random()+0.1 )*500 ), 350 ));
-        console.log("ball -> x:"+this.Ball.getPosition().x + " y:" +this.Ball.getPosition().y);
-        this.addChild( this.Ball, 1 );
+        // this.Ball.setPosition( cc.p( Math.round(( Math.random()+0.1 )*500 ), 350 ));
+        // console.log("ball -> x:"+this.Ball.getPosition().x + " y:" +this.Ball.getPosition().y);
+        // this.addChild( this.Ball, 1 );
         this.Ball.scheduleUpdate();
     },
 

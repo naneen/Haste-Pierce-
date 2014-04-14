@@ -60,7 +60,7 @@ var Player = cc.Sprite.extend({
 		var thisPos = this.getPosition();
 		var monPos = monster.getPosition();
 
-		return ( Math.abs( thisPos.x - monPos.x ) <= 25 && Math.abs( thisPos.y - monPos.y ) <= 5 );
+		return ( Math.abs( thisPos.x - monPos.x ) <= 25 && Math.abs( thisPos.y - monPos.y ) <= 10 );
 	},
 
 	checkCollect: function( ball ){
