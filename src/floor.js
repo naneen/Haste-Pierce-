@@ -35,6 +35,7 @@ var Floor = cc.Node.extend({
 
     addMap: function(){
         var gameLayer = new GameLayer();
+        var monster = new Monster();
 
         for( var h = 0; h < this.HEIGHT; h++ ){
             for( var w = 0; w < this.WIDTH; w++ ){
@@ -43,10 +44,11 @@ var Floor = cc.Node.extend({
                     box.setPosition( new cc.p( w * 30, (this.HEIGHT - h) * 200 ) );
 
                     this.boxPosition.push( box );
-                    this.addChild( box );
+                    // this.addChild( box );
                     gameLayer.initMonster( this.getBoundingBoxToWorld().x);
                 }
             }
+            this.addChild( monster, 1 );
         }
     },
 

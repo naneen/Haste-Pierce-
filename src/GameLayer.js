@@ -64,7 +64,7 @@ var GameLayer = cc.LayerColor.extend({
         var choicePos = [ -80, 900 ];
         var pos = Math.round( Math.random() );
         this.Monster.setPosition( cc.p( choicePos[ pos ], 350 ));
-        this.addChild( this.Monster, 1);
+        // this.addChild( this.Monster, 1);
         this.Monster.scheduleUpdate();
     },
 
