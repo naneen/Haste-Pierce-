@@ -11,7 +11,8 @@ var Ball = cc.Sprite.extend({
 	},
 
 	update: function( dt ){
-
+		var player = new Player( );
+		var gameLayer = new GameLayer();
 		var position = this.getPosition();
 
 		if( this.floor != null ){
@@ -19,6 +20,10 @@ var Ball = cc.Sprite.extend({
 				this.setPosition( cc.p( position.x, position.y - this.gravity ));
 			}
 		}
+
+		if( player.checkCollect( this ) ){
+            gameLayer.ballDisappear();
+        }
 
 	}
 

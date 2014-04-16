@@ -4,7 +4,8 @@ var GameLayer = cc.LayerColor.extend({
         this._super( new cc.Color4B( 127, 127, 127, 255 ) );
         this.setPosition( new cc.Point( 0, 0 ) );
         this.score = 0;
-
+        this.scheduleUpdate();
+        
         this.initPlayer();
         this.initMonster();
         this.initBall();
@@ -14,7 +15,7 @@ var GameLayer = cc.LayerColor.extend({
         this.initBackgound();
 
         this.setKeyboardEnabled( true );
-        this.scheduleUpdate();
+        
 
         return true;
     },
@@ -25,9 +26,9 @@ var GameLayer = cc.LayerColor.extend({
             this.endGame();
         }
 
-        if( this.Player.checkCollect( this.Ball ) ){
-            this.ballDisappear();
-        }
+        // if( this.Player.checkCollect( this.Ball ) ){
+        //     this.ballDisappear();
+        // }
 
     },
 
@@ -73,7 +74,7 @@ var GameLayer = cc.LayerColor.extend({
         this.Ball = new Ball( this.Floor );
         // this.Ball.setPosition( cc.p( Math.round(( Math.random()+0.1 )*500 ), 350 ));
         // console.log("ball -> x:"+this.Ball.getPosition().x + " y:" +this.Ball.getPosition().y);
-        // this.addChild( this.Ball, 1 );
+        this.addChild( this.Ball, 1 );
         this.Ball.scheduleUpdate();
     },
 
