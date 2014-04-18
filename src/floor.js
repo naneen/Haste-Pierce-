@@ -1,129 +1,119 @@
 var Floor = cc.Node.extend({
-    
-    ctor: function( map, player, monster, ball ) {
 
+    ctor: function(){
         this._super();
-        this.WIDTH = 28;
-        this.HEIGHT = 5;
-        this.boxPosition = [];
+        this.lines = []
+        this.v = 1;
+        this.nLine = 1;
+        // this.initLine();
+        this.isInit = false;
+        this.player = null;
+    },
 
-        this.MAP = map;
-        this.player = player;
-        this.monster = monster;
-        this.ball = ball;
+    update: function( dt ){
+        var position = this.getPosition();
+        
+        if( this.player != null ){  
+            
+            if( !this.isInit ) {
+                this.initLine();
+                this.isInit = true;
+            }
+            //move floor up
+            this.setPosition( cc.p( position.x, position.y + this.v ) );
+            // console.log(this.lines[0][0].line+" "+this.lines[0][0].getBoundingBoxToWorld().y );
+            
+            //add Line
+            if( this.lines[ 0 ][ 0 ].getBoundingBoxToWorld().y > 600 ){
+                // console.log(this.lines[this.lines.length-1][0].getPosition().y);
+                for( var i = 0; i < this.lines[ 0 ].length; i++ ){
+                    this.lines[ 0 ][ i ].removeFromParent( true );
+                }
 
-        this.addMap();
-        this.status = Floor.STATUS.IN;
-        this.gravity = 10;
+                this.lines.splice( 0, 1 );//!!!!!!!!!!
+                this.addLine();
+            }
+
+            //check player isAlive?
+            if( !this.player.isAlive ){
+                this.unscheduleUpdate();
+            }
+        }
     },
 
     addLine: function(){
 
+        var line = [];
+        var lastLine = 600;
+
+        if( this.lines.length > 0 ) {
+            // console.log(this.lines.length);
+            lastLine = this.lines[ this.lines.length - 1 ][ 0 ].getPosition().y;
+        }
+
+        var h = lastLine - 200;
+
+        for( var i = 0; i < 28; i++ ){
+            var box = new Box( h, i, this.nLine );//!!!!!!!!!!
+            box.setPosition( new cc.p( i * 30, h ) );
+
+            line.push( box );
+            this.addChild( box );
+        }
+
+        this.nLine++;//!!!!!!!!!!
+        this.lines.push(line);
+
+
+        var monsPosition = [ 0, 800 ];
+        var choice = Math.round( Math.random() );
+        //add monster
+        var monster = new Monster( this, this.player );
+        monster.setPosition( cc.p( monsPosition[ choice ], h + 50 ) );
+        this.addChild(monster);
+        monster.scheduleUpdate();
+        
+        //add ball
     },
 
-    moveFloor: function(){
-        var floorPos = this.getPosition();
-        var monsterPos = this.monster.getPosition();
-        var ballPos = this.ball.getPosition();
-
-        if( this.status = Floor.STATUS.IN ){
-                this.setPosition( cc.p( floorPos.x, floorPos.y + this.gravity ) );
-                this.monster.setPosition( cc.p( monsterPos.x, monsterPos.y + this.gravity ));
-                this.ball.setPosition( cc.p( ballPos.x, ballPos.y + this.gravity ) );
+    initLine: function(){
+        for( var i = 0; i < 4; i++ ){
+            this.addLine();
         }
     },
 
-    // addMap: function(){
+    checkOn: function( obj ){
+        for( var i = 0; i < this.lines.length; i++ ){
+            for( var j = 0; j < this.lines[ i ].length; j++ ){
 
-    //     for( var h = 0; h < this.HEIGHT; h++ ){
-    //         for( var w = 0; w < this.WIDTH; w++ ){
-    //             if( this.MAP[h][w] == '#' ){
-    //                 var box = new Box( h, w );
-    //                 box.setPosition( new cc.p( w * 30, (this.HEIGHT - h) * 200 ) );
+                var box = this.lines[i][j];
+                var boxBB = box.getBoundingBoxToWorld();
 
-    //                 this.boxPosition.push( box );
-    //                 this.addChild( box );
-    //                 // gameLayer.initMonster( this.getBoundingBoxToWorld().x);
-    //             }
-    //         }
-    //         var monster = new Monster();
-    //         var choicePos = [ -80, 900 ];
-    //         var pos = Math.round( Math.random() );
-    //         this.monster.setPosition( cc.p( choicePos[ pos ], (this.HEIGHT - this.boxHigh) * 200 ) ));
-    //         this.addChild( monster, 1 );
-    //         console.log(" add monster ");
-    //     }
-    // },
-    addMap: function(){
-        var gameLayer = new GameLayer();
-       
-        for( var h = 0; h < this.HEIGHT; h++ ){
-           
-            for( var w = 0; w < this.WIDTH; w++ ){
-                if( this.MAP[h][w] == '#' ){
-                    var box = new Box( h, w );
-                    box.setPosition( new cc.p( w * 30, (this.HEIGHT - h) * 200 ) );
-
-                    this.boxPosition.push( box );
-                    this.addChild( box );
-                    gameLayer.initMonster( this.getBoundingBoxToWorld().x);
+                if( cc.rectOverlapsRect( obj, boxBB ) ){
+                    // console.log("obj x:"+obj.x+" obj y:"+obj.y+" box x:"+boxBB.x+" box y:"+boxBB.y);
+                    if( box.isShow ) return box.isShow;
                 }
+                
             }
-            var monster = new Monster( this );
-            var choicePos = [ -80, 900 ];
-            var pos = Math.round( Math.random() );
-            monster.setPosition(cc.p(choicePos[ pos ] - 30,((this.HEIGHT - h) * 200) - 200 ));
-            monster.floor = this;
-            monster.scheduleUpdate();
-            this.addChild(monster,1);
-
-            var ball = new Ball( this );
-            ball.setPosition( cc.p( Math.round(( Math.random()+0.1 )*500 ), ((this.HEIGHT - h) * 200) +100 ));
-            this.addChild( ball, 1 );
-            ball.floor = this;
-            ball.scheduleUpdate();
-        }
-        // this.addChild( monster, 1 );
-    },
-    checkOn: function( bb ){
-
-        for( var i = 0; i < this.boxPosition.length; i++ ){
-
-            var box = this.boxPosition[i];
-            var boxBb = box.getBoundingBoxToWorld();
-
-            var isOnFloor = cc.rectOverlapsRect( bb, boxBb );
-
-            if(isOnFloor){
-                return true;
-            }
+            
         }
         return false;
     },
 
-    clearBox: function( x, y ){
+    destoryBox: function( x, y ){
+        for( var i = 0; i < this.lines.length; i++ ){
+            for( var j = 0; j < this.lines[ i ].length; j++ ){
 
+                var box = this.lines[ i ][ j ];
+                var boxBB = box.getBoundingBoxToWorld();
+
+                if( boxBB.x > x - 50 && boxBB.x < x + 80 &&
+                    boxBB.y > y - 50 && boxBB.y < y + 50 ){
+
+                    box.removeFromParent( true );
+                    box.isShow = false;
+                }
+            }
+        }
     }
 });
-
-Floor.STATUS = {
-    IN: 1,
-    OUT: 2
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

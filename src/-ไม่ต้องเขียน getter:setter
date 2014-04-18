@@ -1,5 +1,0 @@
--ไม่ต้องเขียน getter/setter
--แยกmethod map
--แยกgameLayer เป็นinitPlayer initBall
--เปลี่ยน123เป็น Player.DIR.LEFT Player.ACTION.RIGHT
--เปลี่ยนชื่อตัวแปลทิศทาง เป็นACTION

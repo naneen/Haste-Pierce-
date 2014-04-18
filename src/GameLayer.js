@@ -4,85 +4,37 @@ var GameLayer = cc.LayerColor.extend({
         this._super( new cc.Color4B( 127, 127, 127, 255 ) );
         this.setPosition( new cc.Point( 0, 0 ) );
         this.score = 0;
-        this.scheduleUpdate();
         
-        this.initPlayer();
-        this.initMonster();
-        this.initBall();
         this.initFloor();
-
+        this.initPlayer();
+        this.initHeart();
+        
         this.initScore();
         this.initBackgound();
 
+        this.floor.player = this.player;
         this.setKeyboardEnabled( true );
-        
-
         return true;
     },
 
-    update: function(){
-        if( this.Player.checkDie( this.Monster ) ){
-            console.log("die");
-            this.endGame();
-        }
-
-        // if( this.Player.checkCollect( this.Ball ) ){
-        //     this.ballDisappear();
-        // }
-
-    },
-
     initFloor: function(){
-        var MAP1 = [
-            '############################',
-            '########....################',
-            '################....########',
-            '####....####################',
-            '############################'
-        ];
-
-        // var MAP2 = [
-        //     '###########.################',
-        //     '##########..################',
-        //     '#########...################',
-        //     '########....################',
-        //     '############################'
-        // ];
-
-        this.Floor = new Floor( MAP1, this.Player, this.Monster, this.Ball );
-        this.Floor.setPosition( cc.p( 0, -100 ) );
-        this.addChild( this.Floor, 1 );
-        this.Floor.scheduleUpdate();
-
-        // this.Floor2 = new Floor( MAP2, this.Player, this.Monster );
-
-        this.Monster.floor = this.Floor;
-        this.Player.floor = this.Floor;
-        this.Ball.floor = this.Floor;
-    },
-
-    initMonster: function(){
-        this.Monster = new Monster();
-        // var choicePos = [ -80, 900 ];
-        // var pos = Math.round( Math.random() );
-        // this.Monster.setPosition( cc.p( choicePos[ pos ], 350 ));
-        this.addChild( this.Monster, 1);
-        this.Monster.scheduleUpdate();
-    },
-
-    initBall: function(){
-        this.Ball = new Ball( this.Floor );
-        // this.Ball.setPosition( cc.p( Math.round(( Math.random()+0.1 )*500 ), 350 ));
-        // console.log("ball -> x:"+this.Ball.getPosition().x + " y:" +this.Ball.getPosition().y);
-        this.addChild( this.Ball, 1 );
-        this.Ball.scheduleUpdate();
+        this.floor = new Floor();
+        this.floor.setAnchorPoint( cc.p( 1, 1 ) );
+        this.addChild( this.floor, 1 );
+        this.floor.scheduleUpdate();
     },
 
     initPlayer: function(){
-        this.Player = new Player( this.Floor );
-        this.Player.setPosition( cc.p( 400, 350 ));
-        this.addChild( this.Player, 1);
-        this.Player.scheduleUpdate();
+        this.player = new Player( this.floor );
+        this.player.setPosition( 500, 600 );
+        this.player.scheduleUpdate();
+        this.addChild( this.player, 1 );
+    },
+
+    initHeart: function(){
+        this.heart = new Heart();
+        this.heart.setPosition( cc.p( 700, 550 ) );
+        this.addChild( this.heart, 1 );
     },
 
     initBackgound: function(){
@@ -98,38 +50,18 @@ var GameLayer = cc.LayerColor.extend({
         this.scoreLabel.setString( this.score );
     },
 
-    onKeyDown: function(e){
-        this.Player.status = Player.STATUS.START;
-        // if( e == cc.KEY.left ){
-        //     this.Player.switchStatus( "left" );
-        // }
-        // else if( e == cc.KEY.right ){
-        //     this.Player.switchStatus( "right" );
-        // }
-        // else if( e == cc.KEY.space ){
-        //     this.Player.switchStatus( "spacebar" );
-        // }
-        this.Player.switchDirection(e);
-    },
-
-    // onKeyUp: function(e){
-    //     this.Player.status = Player.STATUS.BREAK;
-    // },
-
-    endGame: function(){
-        this.Player.stop();
-        this.Monster.stop();
-        this.Player.unscheduleUpdate();
-        this.Monster.unscheduleUpdate();
-        this.unscheduleUpdate();
-    },
-
-    ballDisappear: function(){
-        this.removeChild( this.Ball );
-        this.score++;
-        this.scoreLabel.setString( this.score );
-        console.log("pass ball");
+    onKeyDown: function( e ){
+        // console.log(e);
+        if( e == 32 )this.player.destoryBox();
+        if( e == 37 || e == 39 ) this.player.walk( e );
     }
+
+    // ballDisappear: function(){
+    //     this.removeChild( this.Ball );
+    //     this.score++;
+    //     this.scoreLabel.setString( this.score );
+    //     console.log("pass ball");
+    // }
 });
 
 var StartScene = cc.Scene.extend({
