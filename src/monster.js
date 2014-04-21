@@ -6,7 +6,7 @@ var Monster = cc.Sprite.extend({
 		this.images = [ 'images/monster1.png', 'images/monster2.png', 'images/monster3.png' ]; 
 		this.initImage();
 
-		this.setAnchorPoint( cc.p( 0.5, 0 ) );
+		this.setAnchorPoint( cc.p( 0.5, 0.5 ) );
 		this.floor = floor;
 		this.player = player;
 		this.gravity = 5;
@@ -21,7 +21,7 @@ var Monster = cc.Sprite.extend({
 	initImage: function(){
 		// var pic = Math.round( Math.random() * 2 );
 		// this.initWithFile( this.images[ pic ] );
-		this.initWithFile( 'images/monster_2.png' );
+		this.initWithFile( 'images/monster2_1.png' );
 	},
 
 	update: function( dt ){
@@ -79,14 +79,14 @@ var Monster = cc.Sprite.extend({
 
 	createAnimationAction1: function() {
         var animation = new cc.Animation.create();
-        animation.addSpriteFrameWithFile( 'images/monster_2.png' );
-        // animation.addSpriteFrameWithFile( 'images/monster1_1.png' );
-        // animation.addSpriteFrameWithFile( 'images/monster1_2.png' );
-        // animation.addSpriteFrameWithFile( 'images/monster1_3.png' );
-        // animation.addSpriteFrameWithFile( 'images/monster1_4.png' );
-        // animation.addSpriteFrameWithFile( 'images/monster1_5.png' );
+        animation.addSpriteFrameWithFile( 'images/monster2_1.png' );
+        // animation.addSpriteFrameWithFile( 'images/monster2_2.png' );
+        // animation.addSpriteFrameWithFile( 'images/monster2_3.png' );
+        // animation.addSpriteFrameWithFile( 'images/monster2_4.png' );
+        // animation.addSpriteFrameWithFile( 'images/monster2_5.png' );
+        // animation.addSpriteFrameWithFile( 'images/monster2_6.png' );
         console.log( animation.getDelayPerUnit() );
-        animation.setDelayPerUnit( 0.1 );
+        animation.setDelayPerUnit( 0.08 );
         return cc.RepeatForever.create( cc.Animate.create( animation ));
     }
 
