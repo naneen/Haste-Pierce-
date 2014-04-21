@@ -33,19 +33,19 @@ var GameLayer = cc.LayerColor.extend({
 
     initHeart: function(){
         this.heart = new Heart();
-        this.heart.setPosition( cc.p( 700, 550 ) );
+        this.heart.setPosition( cc.p( 1050, 550 ) );
         this.addChild( this.heart, 1 );
     },
 
     initBackgound: function(){
         this.Background = new Background();
-        this.Background.setPosition( cc.p( 400, 300) );
+        this.Background.setPosition( cc.p( 600, 300) );
         this.addChild( this.Background );
     },
 
     initScore: function(){
         this.scoreLabel = cc.LabelTTF.create( '0', 'Arial', 40 );
-        this.scoreLabel.setPosition( new cc.Point( 50, 550 ) );
+        this.scoreLabel.setPosition( new cc.Point( 100, 550 ) );
         this.scoreLabel.setColor( cc.c3b( 200, 0, 0 ));
         this.addChild( this.scoreLabel, 1);
         this.scoreLabel.setString( this.score );

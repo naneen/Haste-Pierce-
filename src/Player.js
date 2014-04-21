@@ -58,10 +58,10 @@ var Player = cc.Sprite.extend({
 
 		//out of screen
 		if( position.x < 0 ) {
-			this.setPosition( cc.p( 770, position.y ) );
+			this.setPosition( cc.p( 1170, position.y ) );
 			this.v = -5;
 		}
-		if( position.x > 770 ){
+		if( position.x > 1170 ){
 			this.setPosition( cc.p( 20, position.y ) );
 			this.v = 5;
 		}

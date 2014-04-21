@@ -53,7 +53,7 @@ var Floor = cc.Node.extend({
 
         var h = lastLine - 200;
 
-        for( var i = 0; i < 28; i++ ){
+        for( var i = 0; i < 41; i++ ){
             var box = new Box( h, i, this.nLine );//!!!!!!!!!!
             box.setPosition( new cc.p( i * 30, h ) );
 
@@ -107,7 +107,7 @@ var Floor = cc.Node.extend({
                 var box = this.lines[ i ][ j ];
                 var boxBB = box.getBoundingBoxToWorld();
 
-                if( boxBB.x > x - 45 && boxBB.x < x + 45 &&
+                if( boxBB.x > x - 50 && boxBB.x < x + 50 &&
                     boxBB.y > y - 50 && boxBB.y < y + 50 ){
 
                     box.removeFromParent( true );
