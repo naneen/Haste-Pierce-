@@ -26,7 +26,7 @@ var GameLayer = cc.LayerColor.extend({
 
     initPlayer: function(){
         this.player = new Player( this.floor );
-        this.player.setPosition( 500, 600 );
+        this.player.setPosition( 500, 550 );
         this.player.scheduleUpdate();
         this.addChild( this.player, 1 );
     },
@@ -46,6 +46,7 @@ var GameLayer = cc.LayerColor.extend({
     initScore: function(){
         this.scoreLabel = cc.LabelTTF.create( '0', 'Arial', 40 );
         this.scoreLabel.setPosition( new cc.Point( 50, 550 ) );
+        this.scoreLabel.setColor( cc.c3b( 200, 0, 0 ));
         this.addChild( this.scoreLabel, 1);
         this.scoreLabel.setString( this.score );
     },
@@ -54,6 +55,14 @@ var GameLayer = cc.LayerColor.extend({
         // console.log(e);
         if( e == 32 )this.player.destoryBox();
         if( e == 37 || e == 39 ) this.player.walk( e );
+        
+        if( !this.player.started ){
+            this.startGame();
+        }
+    },
+
+    startGame: function() {
+        this.player.start();
     }
 
     // ballDisappear: function(){

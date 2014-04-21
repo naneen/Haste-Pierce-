@@ -44,7 +44,7 @@ var Floor = cc.Node.extend({
     addLine: function(){
 
         var line = [];
-        var lastLine = 600;
+        var lastLine = 400;
 
         if( this.lines.length > 0 ) {
             // console.log(this.lines.length);
@@ -64,10 +64,10 @@ var Floor = cc.Node.extend({
         this.nLine++;//!!!!!!!!!!
         this.lines.push(line);
 
-
+        //add monster
         var monsPosition = [ 0, 800 ];
         var choice = Math.round( Math.random() );
-        //add monster
+        
         var monster = new Monster( this, this.player );
         monster.setPosition( cc.p( monsPosition[ choice ], h + 50 ) );
         this.addChild(monster);
@@ -107,7 +107,7 @@ var Floor = cc.Node.extend({
                 var box = this.lines[ i ][ j ];
                 var boxBB = box.getBoundingBoxToWorld();
 
-                if( boxBB.x > x - 50 && boxBB.x < x + 80 &&
+                if( boxBB.x > x - 45 && boxBB.x < x + 45 &&
                     boxBB.y > y - 50 && boxBB.y < y + 50 ){
 
                     box.removeFromParent( true );

@@ -19,6 +19,7 @@ var Box = cc.Sprite.extend({
         else{
             this.initWithFile( 'images/box3.png' );
         }
+        
         this.setAnchorPoint( cc.p( 0.5, 1 ) );
     }
 
