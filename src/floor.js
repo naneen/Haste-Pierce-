@@ -3,7 +3,7 @@ var Floor = cc.Node.extend({
     ctor: function(){
         this._super();
         this.lines = []
-        this.v = 1;
+        this.v = 1.3;
         this.nLine = 1;
         // this.initLine();
         this.isInit = false;

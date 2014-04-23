@@ -61,11 +61,11 @@ var Monster = cc.Sprite.extend({
 		}
 
 		//loop
-		if( position.x <= -50 ){
-			this.setPosition( cc.p( 1200, position.y ));
+		if( position.x <= 10 ){
+			this.setPosition( cc.p( 1150, position.y ));
 		}
-		else if( position.x >= 1250 ){
-			this.setPosition( cc.p( 0, position.y ) );
+		else if( position.x >= 1150 ){
+			this.setPosition( cc.p( 10, position.y ) );
 		}
 
 	},
