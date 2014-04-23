@@ -1,4 +1,5 @@
 var GameLayer = cc.LayerColor.extend({
+
     init: function() {
 
         this._super( new cc.Color4B( 127, 127, 127, 255 ) );

@@ -19,13 +19,12 @@ var Floor = cc.Node.extend({
                 this.initLine();
                 this.isInit = true;
             }
+
             //move floor up
             this.setPosition( cc.p( position.x, position.y + this.v ) );
-            // console.log(this.lines[0][0].line+" "+this.lines[0][0].getBoundingBoxToWorld().y );
             
             //add Line
             if( this.lines[ 0 ][ 0 ].getBoundingBoxToWorld().y > 600 ){
-                // console.log(this.lines[this.lines.length-1][0].getPosition().y);
                 for( var i = 0; i < this.lines[ 0 ].length; i++ ){
                     this.lines[ 0 ][ i ].removeFromParent( true );
                 }
@@ -65,6 +64,13 @@ var Floor = cc.Node.extend({
         this.lines.push(line);
 
         //add monster
+        this.initMonster( h );
+        
+        //add ball
+        this.initCoin( h );
+    },
+
+    initMonster: function( h ){
         var monsPosition = [ 0, 800 ];
         var choice = Math.round( Math.random() );
         
@@ -72,8 +78,15 @@ var Floor = cc.Node.extend({
         monster.setPosition( cc.p( monsPosition[ choice ], h + 50 ) );
         this.addChild(monster);
         monster.scheduleUpdate();
+    },
+
+    initCoin: function( h ){
+        var coinPosition = Math.round( Math.random() * 1100);
         
-        //add ball
+        var coin = new Coin( this, this.player );
+        coin.setPosition( cc.p( coinPosition, h + 50 ) );
+        this.addChild(coin);
+        coin.scheduleUpdate();
     },
 
     initLine: function(){

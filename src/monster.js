@@ -6,7 +6,7 @@ var Monster = cc.Sprite.extend({
 		this.images = [ 'images/monster1.png', 'images/monster2.png', 'images/monster3.png' ]; 
 		this.initImage();
 
-		this.setAnchorPoint( cc.p( 0.5, 0.5 ) );
+		this.setAnchorPoint( cc.p( 0.5, 0 ) );
 		this.floor = floor;
 		this.player = player;
 		this.gravity = 5;
@@ -27,6 +27,12 @@ var Monster = cc.Sprite.extend({
 	update: function( dt ){
 		var position = this.getPosition();
 
+		//run animation
+		if( !this.started ){
+			this.started = true;
+        	this.runAction( this.movingAction );
+		}
+		
 		//checkOn floor
 		if( !this.floor.checkOn( this.getBoundingBoxToWorld() ) ){
 			this.setPosition(cc.p(position.x,position.y - this.gravity));
@@ -62,11 +68,6 @@ var Monster = cc.Sprite.extend({
 			this.setPosition( cc.p( 10, position.y ) );
 		}
 
-		//run animation
-		if( !this.started ){
-			this.started = true;
-        	this.runAction( this.movingAction );
-		}
 	},
 
 	checkPlayerHit: function(){
@@ -80,13 +81,13 @@ var Monster = cc.Sprite.extend({
 	createAnimationAction1: function() {
         var animation = new cc.Animation.create();
         animation.addSpriteFrameWithFile( 'images/monster2_1.png' );
-        // animation.addSpriteFrameWithFile( 'images/monster2_2.png' );
-        // animation.addSpriteFrameWithFile( 'images/monster2_3.png' );
-        // animation.addSpriteFrameWithFile( 'images/monster2_4.png' );
-        // animation.addSpriteFrameWithFile( 'images/monster2_5.png' );
-        // animation.addSpriteFrameWithFile( 'images/monster2_6.png' );
+        animation.addSpriteFrameWithFile( 'images/monster2_2.png' );
+        animation.addSpriteFrameWithFile( 'images/monster2_3.png' );
+        animation.addSpriteFrameWithFile( 'images/monster2_4.png' );
+        animation.addSpriteFrameWithFile( 'images/monster2_5.png' );
+        animation.addSpriteFrameWithFile( 'images/monster2_6.png' );
         console.log( animation.getDelayPerUnit() );
-        animation.setDelayPerUnit( 0.08 );
+        animation.setDelayPerUnit( 0.07 );
         return cc.RepeatForever.create( cc.Animate.create( animation ));
     }
 

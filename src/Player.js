@@ -67,7 +67,10 @@ var Player = cc.Sprite.extend({
 		}
 
 		//check died
-		if( !this.isAlive ) this.unscheduleUpdate();
+		if( !this.isAlive ) {
+			this.unscheduleUpdate();
+			alert('game over!!!'); 
+		}
 
 	},
 
