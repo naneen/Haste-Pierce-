@@ -24,7 +24,7 @@ var Floor = cc.Node.extend({
             this.setPosition( cc.p( position.x, position.y + this.v ) );
             
             //add Line
-            if( this.lines[ 0 ][ 0 ].getBoundingBoxToWorld().y > 600 ){
+            if( this.lines[ 0 ][ 44 ].getBoundingBoxToWorld().y > 600 ){
                 for( var i = 0; i < this.lines[ 0 ].length; i++ ){
                     this.lines[ 0 ][ i ].removeFromParent( true );
                 }
@@ -52,7 +52,7 @@ var Floor = cc.Node.extend({
 
         var h = lastLine - 200;
 
-        for( var i = 0; i < 41; i++ ){
+        for( var i = 0; i < 45; i++ ){
             var box = new Box( h, i, this.nLine );//!!!!!!!!!!
             box.setPosition( new cc.p( i * 30, h ) );
 
@@ -103,7 +103,6 @@ var Floor = cc.Node.extend({
                 var boxBB = box.getBoundingBoxToWorld();
 
                 if( cc.rectOverlapsRect( obj, boxBB ) ){
-                    // console.log("obj x:"+obj.x+" obj y:"+obj.y+" box x:"+boxBB.x+" box y:"+boxBB.y);
                     if( box.isShow ) return box.isShow;
                 }
                 
@@ -120,7 +119,7 @@ var Floor = cc.Node.extend({
                 var box = this.lines[ i ][ j ];
                 var boxBB = box.getBoundingBoxToWorld();
 
-                if( boxBB.x > x - 50 && boxBB.x < x + 50 &&
+                if( boxBB.x > x - 55 && boxBB.x < x + 55 &&
                     boxBB.y > y - 50 && boxBB.y < y + 50 ){
 
                     box.removeFromParent( true );

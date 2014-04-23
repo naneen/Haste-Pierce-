@@ -64,14 +64,13 @@ var GameLayer = cc.LayerColor.extend({
 
     startGame: function() {
         this.player.start();
-    }
+    },
 
-    // ballDisappear: function(){
-    //     this.removeChild( this.Ball );
-    //     this.score++;
-    //     this.scoreLabel.setString( this.score );
-    //     console.log("pass ball");
-    // }
+    updateScore: function(){
+        this.score++;
+        // this.scoreLabel.setString( this.score );
+        console.log("up point");
+    }
 });
 
 var StartScene = cc.Scene.extend({
