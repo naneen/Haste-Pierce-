@@ -12,7 +12,7 @@ var Monster = cc.Sprite.extend({
 		this.gravity = 5;
 		this.randomSide = Math.round( Math.random() );
 		this.velocity = Math.random() + 1.7;
-		this.started = this.player.started;
+		this.started = false;
 
 		this.movingAction = this.createAnimationAction1();
 
@@ -61,11 +61,11 @@ var Monster = cc.Sprite.extend({
 		}
 
 		//loop
-		if( position.x <= 0 ){
-			this.setPosition( cc.p( 1180, position.y ));
+		if( position.x <= -50 ){
+			this.setPosition( cc.p( 1200, position.y ));
 		}
-		else if( position.x >= 1180 ){
-			this.setPosition( cc.p( 10, position.y ) );
+		else if( position.x >= 1250 ){
+			this.setPosition( cc.p( 0, position.y ) );
 		}
 
 	},

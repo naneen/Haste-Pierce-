@@ -11,7 +11,7 @@ var Coin = cc.Sprite.extend({
 		this.player = player;
 		this.gravity = 5;
 		this.randomSide = Math.round( Math.random() );
-		this.started = this.player.started;
+		this.started = false;
 
 		this.movingAction = this.createAnimationAction1();
 
