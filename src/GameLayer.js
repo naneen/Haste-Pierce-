@@ -13,9 +13,40 @@ var GameLayer = cc.LayerColor.extend({
         this.initScore();
         this.initBackgound();
 
+        this.bgMusic = "res/music/Peach Gardens.wav";
+        this.gameoverMusic = "res/music/effect_game_fail.mp3"
+        this.playMusic( this.bgMusic, true );
+
         this.floor.player = this.player;
         this.setKeyboardEnabled( true );
+        this.scheduleUpdate();
+
         return true;
+    },
+
+    update: function( dt ){
+        if( this.floor.coinCollected ){
+            this.score++;
+            this.scoreLabel.setString( this.score );
+            this.floor.coinCollected = false;
+        }
+
+        if( this.floor.passFloor ){
+            this.score += 10;
+            this.scoreLabel.setString( this.score );
+            this.floor.passFloor = false;
+        }
+
+        if( this.floor.playerDie ){
+            console.log("die");
+            this.floor.playerDie = false;
+            this.background.setOpacity( 0 );
+            this.shadow.setOpacity( 150 );
+            cc.AudioEngine.getInstance().stopMusic( this.bgMusic );
+
+            this.playMusic( this.gameoverMusic, false );
+            this.setKeyboardEnabled( false );
+        }
     },
 
     initFloor: function(){
@@ -39,9 +70,14 @@ var GameLayer = cc.LayerColor.extend({
     },
 
     initBackgound: function(){
-        this.Background = new Background();
-        this.Background.setPosition( cc.p( 600, 300) );
-        this.addChild( this.Background );
+        this.background = new Background('bg2');
+        this.background.setPosition( cc.p( 600, 300) );
+        this.addChild( this.background );
+
+        this.shadow = new Background('bg4');
+        this.shadow.setPosition( cc.p(600, 300) );
+        this.addChild( this.shadow, 2 );
+        this.shadow.setOpacity( 0 );
     },
 
     initScore: function(){
@@ -70,6 +106,12 @@ var GameLayer = cc.LayerColor.extend({
         this.score++;
         // this.scoreLabel.setString( this.score );
         console.log("up point");
+    },
+
+    playMusic: function( song, re ){
+        cc.AudioEngine.getInstance().preloadMusic( song );
+        cc.AudioEngine.getInstance().playMusic( song , re );
+        cc.AudioEngine.getInstance().setMusicVolume( 0.5 );
     }
 });
 

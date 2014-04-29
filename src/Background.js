@@ -1,10 +1,10 @@
 
 var Background = cc.Sprite.extend({
 
-	ctor: function(){
+	ctor: function(name){
 
 		this._super();
-		this.initWithFile( 'images/bg2.png' );
+		this.initWithFile( 'res/images/' + name + '.png' );
 		this.setAnchorPoint( cc.p( 0.5, 0.5 ));
 	}
 

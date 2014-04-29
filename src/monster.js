@@ -3,7 +3,7 @@ var Monster = cc.Sprite.extend({
 	ctor: function( floor, player ){
 
 		this._super();
-		this.images = [ 'images/monster1.png', 'images/monster2.png', 'images/monster3.png' ]; 
+		this.images = [ 'res/images/monster1.png', 'res/images/monster2.png', 'res/images/monster3.png' ]; 
 		this.initImage();
 
 		this.setAnchorPoint( cc.p( 0.5, 0 ) );
@@ -21,7 +21,7 @@ var Monster = cc.Sprite.extend({
 	initImage: function(){
 		// var pic = Math.round( Math.random() * 2 );
 		// this.initWithFile( this.images[ pic ] );
-		this.initWithFile( 'images/monster2_1.png' );
+		this.initWithFile( 'res/images/monster2_1.png' );
 	},
 
 	update: function( dt ){
@@ -42,11 +42,12 @@ var Monster = cc.Sprite.extend({
 		else{
 			if( this.randomSide == 0){
 				this.setFlippedX( true );
-				this.setPosition( cc.p( position.x - this.velocity, position.y ));
+				this.velocity = -( Math.random() + 1.7 );
 			}
 			else {
-				this.setPosition( cc.p( position.x + this.velocity, position.y ));
+				this.velocity = Math.random() + 1.7;
 			}
+			this.setPosition( cc.p( position.x + this.velocity, position.y ));
 		}
 
 		//checkHitPlayer
@@ -74,18 +75,20 @@ var Monster = cc.Sprite.extend({
 		var playerBox = this.player.getBoundingBoxToWorld();
 		var thisBox = this.getBoundingBoxToWorld();
 		
-		if(cc.rectOverlapsRect( playerBox, thisBox ))return true;
+		if(cc.rectOverlapsRect( playerBox, thisBox )){
+			return true;
+		}
 		return false;
 	},
 
 	createAnimationAction1: function() {
         var animation = new cc.Animation.create();
-        animation.addSpriteFrameWithFile( 'images/monster2_1.png' );
-        animation.addSpriteFrameWithFile( 'images/monster2_2.png' );
-        animation.addSpriteFrameWithFile( 'images/monster2_3.png' );
-        animation.addSpriteFrameWithFile( 'images/monster2_4.png' );
-        animation.addSpriteFrameWithFile( 'images/monster2_5.png' );
-        animation.addSpriteFrameWithFile( 'images/monster2_6.png' );
+        animation.addSpriteFrameWithFile( 'res/images/monster2_1.png' );
+        animation.addSpriteFrameWithFile( 'res/images/monster2_2.png' );
+        animation.addSpriteFrameWithFile( 'res/images/monster2_3.png' );
+        animation.addSpriteFrameWithFile( 'res/images/monster2_4.png' );
+        animation.addSpriteFrameWithFile( 'res/images/monster2_5.png' );
+        animation.addSpriteFrameWithFile( 'res/images/monster2_6.png' );
         console.log( animation.getDelayPerUnit() );
         animation.setDelayPerUnit( 0.07 );
         return cc.RepeatForever.create( cc.Animate.create( animation ));

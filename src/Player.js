@@ -3,7 +3,7 @@ var Player = cc.Sprite.extend({
 	ctor: function(floor){
 
 		this._super();
-		this.images = [ 'images/player1_1.png', 'images/player2_1.png', 'images/player3_1.png' ];
+		this.images = [ 'res/images/player1_1.png', 'res/images/player2_1.png', 'res/images/player3_1.png' ];
 		this.initImage();
 
 		this.setAnchorPoint( cc.p( 0.5, 0 ) );
@@ -18,15 +18,15 @@ var Player = cc.Sprite.extend({
 
 	createAnimationAction1: function() {
         var animation = new cc.Animation.create();
-        animation.addSpriteFrameWithFile( 'images/player1_1.png' );
-        animation.addSpriteFrameWithFile( 'images/Player1_2.png' );
-        animation.addSpriteFrameWithFile( 'images/Player1_3.png' );
-        animation.addSpriteFrameWithFile( 'images/Player1_4.png' );
-        animation.addSpriteFrameWithFile( 'images/Player1_5.png' );
-        animation.addSpriteFrameWithFile( 'images/Player1_6.png' );
-        animation.addSpriteFrameWithFile( 'images/Player1_7.png' );
-        animation.addSpriteFrameWithFile( 'images/Player1_8.png' );
-        animation.addSpriteFrameWithFile( 'images/Player1_9.png' );
+        animation.addSpriteFrameWithFile( 'res/images/player1_1.png' );
+        animation.addSpriteFrameWithFile( 'res/images/Player1_2.png' );
+        animation.addSpriteFrameWithFile( 'res/images/Player1_3.png' );
+        animation.addSpriteFrameWithFile( 'res/images/Player1_4.png' );
+        animation.addSpriteFrameWithFile( 'res/images/Player1_5.png' );
+        animation.addSpriteFrameWithFile( 'res/images/Player1_6.png' );
+        animation.addSpriteFrameWithFile( 'res/images/Player1_7.png' );
+        animation.addSpriteFrameWithFile( 'res/images/Player1_8.png' );
+        animation.addSpriteFrameWithFile( 'res/images/Player1_9.png' );
         console.log( animation.getDelayPerUnit() );
         animation.setDelayPerUnit( 0.1 );
         return cc.RepeatForever.create( cc.Animate.create( animation ));
@@ -40,7 +40,7 @@ var Player = cc.Sprite.extend({
 	initImage: function(){
 		// var pic = this.images[ Math.round( Math.random() * 2 ) ];
 		// this.initWithFile( pic );
-		this.initWithFile( 'images/player1_1.png' );
+		this.initWithFile( 'res/images/player1_1.png' );
 	},
 
 	update: function( dt ){
@@ -68,8 +68,8 @@ var Player = cc.Sprite.extend({
 
 		//check died
 		if( !this.isAlive ) {
+			this.floor.playerDie = true;
 			this.unscheduleUpdate();
-			alert('game over!!!'); 
 		}
 
 	},

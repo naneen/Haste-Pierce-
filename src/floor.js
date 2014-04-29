@@ -8,11 +8,14 @@ var Floor = cc.Node.extend({
         // this.initLine();
         this.isInit = false;
         this.player = null;
+        this.coinCollected = false;
+        this.passFloor = false;
+        this.playerDie = false;
     },
 
     update: function( dt ){
         var position = this.getPosition();
-        
+
         if( this.player != null ){  
             
             if( !this.isInit ) {
@@ -37,6 +40,8 @@ var Floor = cc.Node.extend({
             if( !this.player.isAlive ){
                 this.unscheduleUpdate();
             }
+
+            this.v += 0.001;
         }
     },
 
@@ -127,5 +132,6 @@ var Floor = cc.Node.extend({
                 }
             }
         }
+        this.passFloor = true;
     }
 });

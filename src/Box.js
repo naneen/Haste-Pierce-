@@ -11,13 +11,13 @@ var Box = cc.Sprite.extend({
         var num = h + w;
 
         if( num % 3 == 0 ){
-            this.initWithFile( 'images/box1.png' );
+            this.initWithFile( 'res/images/box1.png' );
         }
         else if( num % 2 == 0 ){
-            this.initWithFile( 'images/box2.png' );
+            this.initWithFile( 'res/images/box2.png' );
         }
         else{
-            this.initWithFile( 'images/box3.png' );
+            this.initWithFile( 'res/images/box3.png' );
         }
         
         this.setAnchorPoint( cc.p( 0.5, 1 ) );

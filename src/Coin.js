@@ -18,7 +18,7 @@ var Coin = cc.Sprite.extend({
 	},
 
 	initImage: function(){
-		this.initWithFile( 'images/coin1_1.png' );
+		this.initWithFile( 'res/images/coin1_1.png' );
 	},
 
 	update: function( dt ){
@@ -38,14 +38,15 @@ var Coin = cc.Sprite.extend({
 		//checkHitPlayer
 		if( this.checkPlayerHit() ){
 			console.log("hit");
+			this.floor.coinCollected = true;
 			this.removeFromParent( true );
 			// this.player.isAlive = false;
 		}
 
-		//checkPlayerisAlive?
-		// if( !this.player.isAlive ){
-		// 	this.unscheduleUpdate();
-		// }
+		//check over border
+		if( this.getBoundingBoxToWorld().y > 600 ){
+			this.removeFromParent( true );
+		}
 
 		//loop
 		if( position.x <= 0 ){
@@ -67,12 +68,12 @@ var Coin = cc.Sprite.extend({
 
 	createAnimationAction1: function() {
         var animation = new cc.Animation.create();
-        animation.addSpriteFrameWithFile( 'images/coin1_1.png' );
-        animation.addSpriteFrameWithFile( 'images/coin1_2.png' );
-        animation.addSpriteFrameWithFile( 'images/coin1_3.png' );
-        animation.addSpriteFrameWithFile( 'images/coin1_4.png' );
-        animation.addSpriteFrameWithFile( 'images/coin1_5.png' );
-        animation.addSpriteFrameWithFile( 'images/coin1_6.png' );
+        animation.addSpriteFrameWithFile( 'res/images/coin1_1.png' );
+        animation.addSpriteFrameWithFile( 'res/images/coin1_2.png' );
+        animation.addSpriteFrameWithFile( 'res/images/coin1_3.png' );
+        animation.addSpriteFrameWithFile( 'res/images/coin1_4.png' );
+        animation.addSpriteFrameWithFile( 'res/images/coin1_5.png' );
+        animation.addSpriteFrameWithFile( 'res/images/coin1_6.png' );
         console.log( animation.getDelayPerUnit() );
         animation.setDelayPerUnit( 0.1 );
         return cc.RepeatForever.create( cc.Animate.create( animation ));
