@@ -56,7 +56,7 @@ var g_resources = [
     {src: 'res/images/player3_7.png' },
     {src: 'res/images/player3_8.png' },
     {src: 'res/images/player3_9.png' },
-    
+    {src: 'res/images/gameOver.png' },
  
     //plist
     {src: 'res/music/Peach Gardens.wav'},

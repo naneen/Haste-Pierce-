@@ -40,8 +40,7 @@ var GameLayer = cc.LayerColor.extend({
         if( this.floor.playerDie ){
             console.log("die");
             this.floor.playerDie = false;
-            this.background.setOpacity( 0 );
-            this.shadow.setOpacity( 150 );
+            this.shadow.setOpacity( 500 );
             cc.AudioEngine.getInstance().stopMusic( this.bgMusic );
 
             this.playMusic( this.gameoverMusic, false );
@@ -74,7 +73,7 @@ var GameLayer = cc.LayerColor.extend({
         this.background.setPosition( cc.p( 600, 300) );
         this.addChild( this.background );
 
-        this.shadow = new Background('bg4');
+        this.shadow = new Background('gameOver');
         this.shadow.setPosition( cc.p(600, 300) );
         this.addChild( this.shadow, 2 );
         this.shadow.setOpacity( 0 );
