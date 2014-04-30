@@ -38,9 +38,9 @@ var GameLayer = cc.LayerColor.extend({
         }
 
         if( this.floor.playerDie ){
-            console.log("die");
             this.floor.playerDie = false;
-            this.shadow.setOpacity( 500 );
+            // this.shadow.setOpacity( 500 );
+            this.shadow.setVisible( true );
             cc.AudioEngine.getInstance().stopMusic( this.bgMusic );
 
             this.playMusic( this.gameoverMusic, false );
@@ -76,15 +76,20 @@ var GameLayer = cc.LayerColor.extend({
         this.shadow = new Background('gameOver');
         this.shadow.setPosition( cc.p(600, 300) );
         this.addChild( this.shadow, 2 );
-        this.shadow.setOpacity( 0 );
+        // this.shadow.setOpacity( 0 );
+        this.shadow.setVisible( false );
     },
 
     initScore: function(){
-        this.scoreLabel = cc.LabelTTF.create( '0', 'Arial', 40 );
-        this.scoreLabel.setPosition( new cc.Point( 100, 550 ) );
-        this.scoreLabel.setColor( cc.c3b( 200, 0, 0 ));
-        this.addChild( this.scoreLabel, 1);
+        this.scoreLabel = cc.LabelTTF.create( '0', 'HanziPen SC', 40 );
+        this.scoreLabel.setPosition( new cc.Point( 100, 540 ) );
+        this.scoreLabel.setColor( cc.c3b( 255, 255, 255 ) );
+        this.addChild( this.scoreLabel, 2 );
         this.scoreLabel.setString( this.score );
+
+        this.scoreBg = cc.Sprite.create( 'res/score3.png' );
+        this.scoreBg.setPosition( new cc.p( 100, 550 ) );
+        this.addChild( this.scoreBg, 1 );
     },
 
     onKeyDown: function( e ){

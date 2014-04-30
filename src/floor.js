@@ -32,7 +32,7 @@ var Floor = cc.Node.extend({
                     this.lines[ 0 ][ i ].removeFromParent( true );
                 }
 
-                this.lines.splice( 0, 1 );//!!!!!!!!!!
+                this.lines.splice( 0, 1 );
                 this.addLine();
             }
 
@@ -41,7 +41,7 @@ var Floor = cc.Node.extend({
                 this.unscheduleUpdate();
             }
 
-            this.v += 0.001;
+            this.v += 0.0001;
         }
     },
 
@@ -58,14 +58,14 @@ var Floor = cc.Node.extend({
         var h = lastLine - 200;
 
         for( var i = 0; i < 45; i++ ){
-            var box = new Box( h, i, this.nLine );//!!!!!!!!!!
+            var box = new Box( h, i, this.nLine );
             box.setPosition( new cc.p( i * 30, h ) );
 
             line.push( box );
             this.addChild( box );
         }
 
-        this.nLine++;//!!!!!!!!!!
+        this.nLine++;
         this.lines.push(line);
 
         //add monster
