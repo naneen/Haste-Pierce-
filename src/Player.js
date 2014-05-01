@@ -10,7 +10,7 @@ var Player = cc.Sprite.extend({
 		this.gravity = 5;
 		this.floor = floor;
 		this.v = 0;
-		this.isAlive = true;
+		// this.isAlive = true;
 		this.started = false;
 
 		this.movingAction = this.createAnimationAction1();
@@ -27,7 +27,6 @@ var Player = cc.Sprite.extend({
         animation.addSpriteFrameWithFile( 'res/images/Player1_7.png' );
         animation.addSpriteFrameWithFile( 'res/images/Player1_8.png' );
         animation.addSpriteFrameWithFile( 'res/images/Player1_9.png' );
-        console.log( animation.getDelayPerUnit() );
         animation.setDelayPerUnit( 0.1 );
         return cc.RepeatForever.create( cc.Animate.create( animation ));
     },
@@ -67,9 +66,11 @@ var Player = cc.Sprite.extend({
 		}
 
 		//check died
-		if( !this.isAlive || position.y > 600 || position.y < -100) {
-			this.floor.playerDie = true;
-			this.unscheduleUpdate();
+		if( this.floor.playerDie || position.y > 600 || position.y < -100) {
+			// this.floor.playerDie = false;
+			if( this.floor.life <= 0 ){
+                this.unscheduleUpdate();
+            }
 		}
 
 	},

@@ -2,11 +2,14 @@ var Floor = cc.Node.extend({
 
     ctor: function(){
         this._super();
+
         this.lines = []
         this.v = 1.3;
         this.nLine = 1;
-        // this.initLine();
         this.isInitLine = false;
+
+        this.life = 3;
+
         this.player = null;
         this.coinCollected = false;
         this.passFloor = false;
@@ -15,47 +18,29 @@ var Floor = cc.Node.extend({
     },
 
     update: function( dt ){
-        var position = this.getPosition();
-
         if( this.player != null ){  
-            
-            // if( !this.isInitLine ) {
-            //     this.initLine();
-            //     this.isInitLine = true;
-            // }
-            
+
             if( this.started ){
-                //move floor up
-                console.log ( "start"+this.started );
-                this.setPosition( cc.p( position.x, position.y + this.v ) );
-                
-                //add Line
-                if( this.lines[ 0 ][ 44 ].getBoundingBoxToWorld().y > 600 ){
-                    for( var i = 0; i < this.lines[ 0 ].length; i++ ){
-                        this.lines[ 0 ][ i ].removeFromParent( true );
-                    }
 
-                    this.lines.splice( 0, 1 );
-                    this.addLine();
-                }
-
-                //check player isAlive?
-                if( !this.player.isAlive ){
-                    this.unscheduleUpdate();
-                }
+                this.moveFloorUp();
+                this.removeLine();
+                this.checkDie();
 
                 this.v += 0.0001;
             }
         }
     },
 
-    addLine: function(){
+    moveFloorUp: function(){
+        this.setPosition( cc.p( this.getPosition().x, this.getPosition().y + this.v ) );
+    },
+
+    addNewLine: function(){
 
         var line = [];
         var lastLine = 400;
 
         if( this.lines.length > 0 ) {
-            // console.log(this.lines.length);
             lastLine = this.lines[ this.lines.length - 1 ][ 0 ].getPosition().y;
         }
 
@@ -72,11 +57,30 @@ var Floor = cc.Node.extend({
         this.nLine++;
         this.lines.push(line);
 
-        //add monster
         this.initMonster( h );
-        
-        //add ball
         this.initCoin( h );
+    },
+
+    removeLine: function(){
+        if( this.lines[ 0 ][ 44 ].getBoundingBoxToWorld().y > 900 ){
+            for( var i = 0; i < this.lines[ 0 ].length; i++ ){
+                this.lines[ 0 ][ i ].removeFromParent( true );
+            }
+
+            this.lines.splice( 0, 1 );
+            this.addNewLine();
+        }
+    },
+
+    checkDie: function(){
+        if( this.playerDie ){
+            this.playerDie = false;
+            this.life -= 1;
+            
+            if( this.life <= 0 ){
+                this.unscheduleUpdate();
+            }
+        }
     },
 
     initMonster: function( h ){
@@ -99,8 +103,8 @@ var Floor = cc.Node.extend({
     },
 
     initLine: function(){
-        for( var i = 0; i < 4; i++ ){
-            this.addLine();
+        for( var i = 0; i < 7; i++ ){
+            this.addNewLine();
         }
     },
 
@@ -114,9 +118,7 @@ var Floor = cc.Node.extend({
                 if( cc.rectOverlapsRect( obj, boxBB ) ){
                     if( box.isShow ) return box.isShow;
                 }
-                
             }
-            
         }
         return false;
     },

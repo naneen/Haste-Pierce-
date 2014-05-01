@@ -37,7 +37,7 @@ var Coin = cc.Sprite.extend({
 
 		//checkHitPlayer
 		if( this.checkPlayerHit() ){
-			console.log("hit");
+			console.log("coin hit");
 			this.floor.coinCollected = true;
 			this.removeFromParent( true );
 			// this.player.isAlive = false;
@@ -74,7 +74,6 @@ var Coin = cc.Sprite.extend({
         animation.addSpriteFrameWithFile( 'res/images/coin1_4.png' );
         animation.addSpriteFrameWithFile( 'res/images/coin1_5.png' );
         animation.addSpriteFrameWithFile( 'res/images/coin1_6.png' );
-        console.log( animation.getDelayPerUnit() );
         animation.setDelayPerUnit( 0.1 );
         return cc.RepeatForever.create( cc.Animate.create( animation ));
     }

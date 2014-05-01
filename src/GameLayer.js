@@ -9,6 +9,7 @@ var GameLayer = cc.LayerColor.extend({
         this.initFloor();
         this.initPlayer();
         this.initHeart();
+        // this.heart = 3;
         
         this.initScore();
         this.initBackgound();
@@ -42,15 +43,26 @@ var GameLayer = cc.LayerColor.extend({
             this.floor.passFloor = false;
         }
 
-        if( this.floor.playerDie ){
-            this.floor.playerDie = false;
-            // this.shadow.setOpacity( 500 );
+        if( this.floor.playerDie && this.floor.playerDie ){
             this.shadow.setVisible( true );
-            cc.AudioEngine.getInstance().stopMusic( this.bgMusic );
-
-            this.playMusic( this.gameoverMusic, false );
-            this.setKeyboardEnabled( false );
         }
+
+        this.heart.decrease( this.floor.life );
+
+        // if( this.floor.playerDie ){
+        //     this.floor.playerDie = false;
+            
+        //     this.heart -= 1;
+
+        //     if( this.heart == 0 ){
+        //         this.shadow.setVisible( true );
+        //         cc.AudioEngine.getInstance().stopMusic( this.bgMusic );
+
+        //         this.playMusic( this.gameoverMusic, false );
+        //         this.setKeyboardEnabled( false );
+        //     }
+        // }
+        console.log( 'life:'+ this.floor.life );
     },
 
     initFloor: function(){
@@ -62,12 +74,12 @@ var GameLayer = cc.LayerColor.extend({
 
     initPlayer: function(){
         this.player = new Player( this.floor );
-        this.player.setPosition( 500, 500 );
+        this.player.setPosition( 500, 400 );
         this.addChild( this.player, 1 );
     },
 
     initHeart: function(){
-        this.heart = new Heart();
+        this.heart = new Heart( this );
         this.heart.setPosition( cc.p( 1050, 550 ) );
         this.addChild( this.heart, 1 );
     },
@@ -97,7 +109,6 @@ var GameLayer = cc.LayerColor.extend({
     },
 
     onKeyDown: function( e ){
-        // console.log(e);
         if( e == 32 )this.player.destoryBox();
         if( e == 37 || e == 39 ) this.player.walk( e );
         

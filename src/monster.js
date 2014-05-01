@@ -53,13 +53,22 @@ var Monster = cc.Sprite.extend({
 		//checkHitPlayer
 		if( this.checkPlayerHit() ){
 			console.log("hit");
-			this.player.isAlive = false;
+			this.floor.playerDie = true;
+			
+			if( this.floor.life <= 0 ){
+                this.unscheduleUpdate();
+            }
+		}
+
+		//remove
+		if ( this.getBoundingBoxToWorld().y > 900 ){
+			this.removeFromParent( true );
 		}
 
 		//checkPlayerisAlive?
-		if( !this.player.isAlive ){
-			this.unscheduleUpdate();
-		}
+		// if( !this.player.isAlive ){
+		// 	this.unscheduleUpdate();
+		// }
 
 		//loop
 		if( position.x <= 10 ){
@@ -89,7 +98,7 @@ var Monster = cc.Sprite.extend({
         animation.addSpriteFrameWithFile( 'res/images/monster2_4.png' );
         animation.addSpriteFrameWithFile( 'res/images/monster2_5.png' );
         animation.addSpriteFrameWithFile( 'res/images/monster2_6.png' );
-        console.log( animation.getDelayPerUnit() );
+        
         animation.setDelayPerUnit( 0.07 );
         return cc.RepeatForever.create( cc.Animate.create( animation ));
     }
