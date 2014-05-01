@@ -6,11 +6,12 @@ var Floor = cc.Node.extend({
         this.v = 1.3;
         this.nLine = 1;
         // this.initLine();
-        this.isInit = false;
+        this.isInitLine = false;
         this.player = null;
         this.coinCollected = false;
         this.passFloor = false;
         this.playerDie = false;
+        this.started = false;
     },
 
     update: function( dt ){
@@ -18,30 +19,33 @@ var Floor = cc.Node.extend({
 
         if( this.player != null ){  
             
-            if( !this.isInit ) {
-                this.initLine();
-                this.isInit = true;
-            }
-
-            //move floor up
-            this.setPosition( cc.p( position.x, position.y + this.v ) );
+            // if( !this.isInitLine ) {
+            //     this.initLine();
+            //     this.isInitLine = true;
+            // }
             
-            //add Line
-            if( this.lines[ 0 ][ 44 ].getBoundingBoxToWorld().y > 600 ){
-                for( var i = 0; i < this.lines[ 0 ].length; i++ ){
-                    this.lines[ 0 ][ i ].removeFromParent( true );
+            if( this.started ){
+                //move floor up
+                console.log ( "start"+this.started );
+                this.setPosition( cc.p( position.x, position.y + this.v ) );
+                
+                //add Line
+                if( this.lines[ 0 ][ 44 ].getBoundingBoxToWorld().y > 600 ){
+                    for( var i = 0; i < this.lines[ 0 ].length; i++ ){
+                        this.lines[ 0 ][ i ].removeFromParent( true );
+                    }
+
+                    this.lines.splice( 0, 1 );
+                    this.addLine();
                 }
 
-                this.lines.splice( 0, 1 );
-                this.addLine();
-            }
+                //check player isAlive?
+                if( !this.player.isAlive ){
+                    this.unscheduleUpdate();
+                }
 
-            //check player isAlive?
-            if( !this.player.isAlive ){
-                this.unscheduleUpdate();
+                this.v += 0.0001;
             }
-
-            this.v += 0.0001;
         }
     },
 

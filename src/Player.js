@@ -32,10 +32,10 @@ var Player = cc.Sprite.extend({
         return cc.RepeatForever.create( cc.Animate.create( animation ));
     },
 
-    start: function() {
-        this.started = true;
-        this.runAction( this.movingAction );
-    },
+    // start: function() {
+    //     this.started = true;
+    //     this.runAction( this.movingAction );
+    // },
 
 	initImage: function(){
 		// var pic = this.images[ Math.round( Math.random() * 2 ) ];
@@ -67,7 +67,7 @@ var Player = cc.Sprite.extend({
 		}
 
 		//check died
-		if( !this.isAlive ) {
+		if( !this.isAlive || position.y > 600 || position.y < -100) {
 			this.floor.playerDie = true;
 			this.unscheduleUpdate();
 		}

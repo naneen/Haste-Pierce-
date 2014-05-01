@@ -25,6 +25,11 @@ var GameLayer = cc.LayerColor.extend({
     },
 
     update: function( dt ){
+        if( !this.floor.isInitLine ) {
+                this.floor.initLine();
+                this.floor.isInitLine = true;
+        }
+
         if( this.floor.coinCollected ){
             this.score++;
             this.scoreLabel.setString( this.score );
@@ -52,13 +57,12 @@ var GameLayer = cc.LayerColor.extend({
         this.floor = new Floor();
         this.floor.setAnchorPoint( cc.p( 1, 1 ) );
         this.addChild( this.floor, 1 );
-        this.floor.scheduleUpdate();
+
     },
 
     initPlayer: function(){
         this.player = new Player( this.floor );
-        this.player.setPosition( 500, 550 );
-        this.player.scheduleUpdate();
+        this.player.setPosition( 500, 500 );
         this.addChild( this.player, 1 );
     },
 
@@ -97,25 +101,26 @@ var GameLayer = cc.LayerColor.extend({
         if( e == 32 )this.player.destoryBox();
         if( e == 37 || e == 39 ) this.player.walk( e );
         
-        if( !this.player.started ){
+        if( !this.player.started && !this.floor.started ){
             this.startGame();
         }
     },
 
     startGame: function() {
-        this.player.start();
-    },
+        this.player.started = true;
+        this.player.runAction( this.player.movingAction );
 
-    updateScore: function(){
-        this.score++;
-        // this.scoreLabel.setString( this.score );
-        console.log("up point");
+        this.floor.started = true;
+        // this.scheduleUpdate();
+        this.floor.scheduleUpdate();
+        this.player.scheduleUpdate();
+
     },
 
     playMusic: function( song, re ){
-        cc.AudioEngine.getInstance().preloadMusic( song );
-        cc.AudioEngine.getInstance().playMusic( song , re );
-        cc.AudioEngine.getInstance().setMusicVolume( 0.5 );
+        // cc.AudioEngine.getInstance().preloadMusic( song );
+        // cc.AudioEngine.getInstance().playMusic( song , re );
+        // cc.AudioEngine.getInstance().setMusicVolume( 0.5 );
     }
 });
 
