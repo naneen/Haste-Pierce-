@@ -32,36 +32,27 @@ var GameLayer = cc.LayerColor.extend({
         }
 
         if( this.floor.coinCollected ){
-            this.score++;
+            this.score += 10;
             this.scoreLabel.setString( this.score );
             this.floor.coinCollected = false;
         }
 
         if( this.floor.passFloor ){
-            this.score += 10;
+            this.score += 5;
             this.scoreLabel.setString( this.score );
             this.floor.passFloor = false;
         }
 
-        if( this.floor.playerDie && this.floor.playerDie ){
+        if( this.floor.playerDie && this.floor.life == 0 ){
+            this.floor.playerDie = false;
             this.shadow.setVisible( true );
+            cc.AudioEngine.getInstance().stopMusic( this.bgMusic );
+
+            this.playMusic( this.gameoverMusic, false );
         }
 
         this.heart.decrease( this.floor.life );
 
-        // if( this.floor.playerDie ){
-        //     this.floor.playerDie = false;
-            
-        //     this.heart -= 1;
-
-        //     if( this.heart == 0 ){
-        //         this.shadow.setVisible( true );
-        //         cc.AudioEngine.getInstance().stopMusic( this.bgMusic );
-
-        //         this.playMusic( this.gameoverMusic, false );
-        //         this.setKeyboardEnabled( false );
-        //     }
-        // }
         console.log( 'life:'+ this.floor.life );
     },
 
@@ -129,9 +120,16 @@ var GameLayer = cc.LayerColor.extend({
     },
 
     playMusic: function( song, re ){
-        // cc.AudioEngine.getInstance().preloadMusic( song );
-        // cc.AudioEngine.getInstance().playMusic( song , re );
-        // cc.AudioEngine.getInstance().setMusicVolume( 0.5 );
+        cc.AudioEngine.getInstance().preloadMusic( song );
+        cc.AudioEngine.getInstance().playMusic( song , re );
+        cc.AudioEngine.getInstance().setMusicVolume( 0.5 );
+    },
+
+    countTime: function(){
+        date = new Date();
+        hitTime = date.getTime() * 1000;
+        console.log("hitTime"+hitTime);
+        return hitTime;
     }
 });
 

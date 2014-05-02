@@ -60,7 +60,8 @@ var g_resources = [
  
     //plist
     {src: 'res/music/Peach Gardens.wav'},
-    {src: 'res/music/effect_game_fail.mp3'}
+    {src: 'res/music/effect_game_fail.mp3'},
+    {src: 'res/music/taratata.wav'}
  
     //fnt
  

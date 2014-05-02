@@ -9,11 +9,11 @@ var Floor = cc.Node.extend({
         this.isInitLine = false;
 
         this.life = 3;
+        this.playerDie = false;
 
         this.player = null;
         this.coinCollected = false;
         this.passFloor = false;
-        this.playerDie = false;
         this.started = false;
     },
 
