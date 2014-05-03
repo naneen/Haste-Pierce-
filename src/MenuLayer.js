@@ -12,7 +12,7 @@ var MenuLayer = cc.Layer.extend({
         var director = cc.Director.getInstance();
         var winsize = director.getWinSize();
         var center = cc.p( 600, 300 );
-        console.log("sdads");
+       
         var bg = cc.Sprite.create( 'res/images/gameStart.png' );
         bg.setPosition( center );
         this.addChild( bg );

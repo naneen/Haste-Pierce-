@@ -14,7 +14,8 @@ var GameLayer = cc.LayerColor.extend({
         this.initScore();
         this.initBackgound();
 
-        this.bgMusic = "res/music/Peach Gardens.wav";
+        // this.bgMusic = "res/music/Peach Gardens.wav";
+        this.bgMusic = "res/music/effect_game_fail.mp3"
         this.gameoverMusic = "res/music/effect_game_fail.mp3"
         this.playMusic( this.bgMusic, true );
 
