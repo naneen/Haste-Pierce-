@@ -19,6 +19,7 @@ var MenuLayer = cc.Layer.extend({
 	},
 
 	onTouchBegan:function( touch, event ) {
+        cc.log("==onplay clicked");
         var director = cc.Director.getInstance();
         director.replaceScene(cc.TransitionFade.create(1.5, new StartScene()));
     }
