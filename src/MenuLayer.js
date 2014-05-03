@@ -9,6 +9,10 @@ var MenuLayer = cc.Layer.extend({
 		this.setTouchEnabled(true);
         this.setTouchMode(1);
 
+        var song = "res/music/chinese_baby_sms.mp3";
+        cc.AudioEngine.getInstance().preloadMusic( song );
+        cc.AudioEngine.getInstance().playMusic( song , true );
+
         var director = cc.Director.getInstance();
         var winsize = director.getWinSize();
         var center = cc.p( 600, 300 );

@@ -14,9 +14,9 @@ var GameLayer = cc.LayerColor.extend({
         this.initScore();
         this.initBackgound();
 
-        // this.bgMusic = "res/music/Peach Gardens.wav";
-        this.bgMusic = "res/music/effect_game_fail.mp3"
-        this.gameoverMusic = "res/music/effect_game_fail.mp3"
+        this.bgMusic = "res/music/Peach Gardens.wav";
+        this.gameoverMusic = "res/music/effect_game_fail.mp3";
+        this.coinMusic = "res/music/coin8.wav";
         this.playMusic( this.bgMusic, true );
 
         this.floor.player = this.player;
@@ -35,21 +35,23 @@ var GameLayer = cc.LayerColor.extend({
         if( this.floor.coinCollected ){
             this.score += 10;
             this.scoreLabel.setString( this.score );
+            this.playEffect( this.coinMusic );
             this.floor.coinCollected = false;
         }
 
         if( this.floor.passFloor ){
             this.score += 5;
             this.scoreLabel.setString( this.score );
+            this.playEffect( 'res/music/floor.wav' );
             this.floor.passFloor = false;
         }
 
         if( this.floor.playerDie && this.floor.life == 0 ){
             this.floor.playerDie = false;
             this.shadow.setVisible( true );
-            cc.AudioEngine.getInstance().stopMusic( this.bgMusic );
-
+            // cc.AudioEngine.getInstance().stopMusic( this.bgMusic );
             this.playMusic( this.gameoverMusic, false );
+            this.unscheduleUpdate();
         }
 
         this.heart.decrease( this.floor.life );
@@ -121,9 +123,14 @@ var GameLayer = cc.LayerColor.extend({
     },
 
     playMusic: function( song, re ){
-        cc.AudioEngine.getInstance().preloadMusic( song );
-        cc.AudioEngine.getInstance().playMusic( song , re );
-        cc.AudioEngine.getInstance().setMusicVolume( 0.5 );
+        // cc.AudioEngine.getInstance().preloadMusic( song );
+        // cc.AudioEngine.getInstance().playMusic( song , re );
+        // cc.AudioEngine.getInstance().setMusicVolume( 0.5 );
+    },
+
+    playEffect: function( effect ){
+        cc.AudioEngine.getInstance().playEffect( effect );
+        // cc.AudioEngine.getInstance().setEffectVolume( 0.5 );
     },
 
     countTime: function(){
