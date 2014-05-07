@@ -55,6 +55,7 @@ var GameLayer = cc.LayerColor.extend({
             this.playMusic( this.gameoverMusic, false );
             this.setKeyboardEnabled( false );
             this.floor.unscheduleUpdate();
+            this.player.unscheduleUpdate();
             this.unscheduleUpdate();
         }
 

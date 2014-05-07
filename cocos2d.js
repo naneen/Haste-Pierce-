@@ -9,7 +9,8 @@
         frameRate: 60,
         renderMode: 2,       //Choose of RenderMode: 0(default), 1(Canvas only), 2(WebGL only)
         tag: 'gameCanvas', //the dom element to run cocos2d on
-        engineDir: '../../cocos2d/',
+        // engineDir: '../../cocos2d/',
+        engineDir: '../Cocos2d-html5-v2/cocos2d/',
         //SingleEngineFile:'',
         appFiles:[
             'src/MenuLayer.js',
@@ -21,8 +22,7 @@
             'src/Monster.js',
             'src/Background.js',
             'src/Coin.js',
-            'src/Heart.js',
-            'src/Music.js'  //add your own files in order here
+            'src/Heart.js'  //add your own files in order here
         ]
     };
 

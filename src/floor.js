@@ -26,7 +26,6 @@ var Floor = cc.Node.extend({
 
                 this.moveFloorUp();
                 this.removeLine();
-                this.checkDie();
 
                 this.v += 0.0001;
             }
@@ -71,12 +70,6 @@ var Floor = cc.Node.extend({
 
             this.lines.splice( 0, 1 );
             this.addNewLine();
-        }
-    },
-
-    checkDie: function(){
-        if( this.life <= 0 ){
-            this.unscheduleUpdate();
         }
     },
 

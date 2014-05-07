@@ -21,14 +21,14 @@ var Player = cc.Sprite.extend({
 	createAnimationAction1: function() {
         var animation = new cc.Animation.create();
         animation.addSpriteFrameWithFile( 'res/images/player1_1.png' );
-        animation.addSpriteFrameWithFile( 'res/images/Player1_2.png' );
-        animation.addSpriteFrameWithFile( 'res/images/Player1_3.png' );
-        animation.addSpriteFrameWithFile( 'res/images/Player1_4.png' );
-        animation.addSpriteFrameWithFile( 'res/images/Player1_5.png' );
-        animation.addSpriteFrameWithFile( 'res/images/Player1_6.png' );
-        animation.addSpriteFrameWithFile( 'res/images/Player1_7.png' );
-        animation.addSpriteFrameWithFile( 'res/images/Player1_8.png' );
-        animation.addSpriteFrameWithFile( 'res/images/Player1_9.png' );
+        animation.addSpriteFrameWithFile( 'res/images/player1_2.png' );
+        animation.addSpriteFrameWithFile( 'res/images/player1_3.png' );
+        animation.addSpriteFrameWithFile( 'res/images/player1_4.png' );
+        animation.addSpriteFrameWithFile( 'res/images/player1_5.png' );
+        animation.addSpriteFrameWithFile( 'res/images/player1_6.png' );
+        animation.addSpriteFrameWithFile( 'res/images/player1_7.png' );
+        animation.addSpriteFrameWithFile( 'res/images/player1_8.png' );
+        animation.addSpriteFrameWithFile( 'res/images/player1_9.png' );
         animation.setDelayPerUnit( 0.1 );
         return cc.RepeatForever.create( cc.Animate.create( animation ));
     },
