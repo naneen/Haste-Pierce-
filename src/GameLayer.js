@@ -1,14 +1,16 @@
 var GameLayer = cc.LayerColor.extend({
 
-    init: function() {
+    init: function( level ) {
 
         this._super( new cc.Color4B( 127, 127, 127, 255 ) );
         this.setPosition( new cc.Point( 0, 0 ) );
         this.score = 0;
+        this.level = level;
         
         this.initFloor();
         this.initPlayer();
         this.initHeart();
+        this.initMusic();
         // this.heart = 3;
         
         this.initScore();
@@ -51,6 +53,8 @@ var GameLayer = cc.LayerColor.extend({
             this.shadow.setVisible( true );
             // cc.AudioEngine.getInstance().stopMusic( this.bgMusic );
             this.playMusic( this.gameoverMusic, false );
+            this.setKeyboardEnabled( false );
+            this.floor.unscheduleUpdate();
             this.unscheduleUpdate();
         }
 
@@ -60,14 +64,14 @@ var GameLayer = cc.LayerColor.extend({
     },
 
     initFloor: function(){
-        this.floor = new Floor();
+        this.floor = new Floor( this.level );
         this.floor.setAnchorPoint( cc.p( 1, 1 ) );
         this.addChild( this.floor, 1 );
 
     },
 
     initPlayer: function(){
-        this.player = new Player( this.floor );
+        this.player = new Player( this.floor, this.level );
         this.player.setPosition( 500, 400 );
         this.addChild( this.player, 1 );
     },
@@ -102,6 +106,13 @@ var GameLayer = cc.LayerColor.extend({
         this.addChild( this.scoreBg, 1 );
     },
 
+    initMusic: function(){
+        this.butt = cc.Sprite.create( 'res/images/player3_9.png');
+        this.butt.setPosition( cc.p( 1100, 50 ) );
+        // this.butt.setOpacity( 125 );
+        this.addChild( this.butt, 2 );
+    },
+
     onKeyDown: function( e ){
         if( e == 32 )this.player.destoryBox();
         if( e == 37 || e == 39 ) this.player.walk( e );
@@ -130,7 +141,10 @@ var GameLayer = cc.LayerColor.extend({
 
     playEffect: function( effect ){
         cc.AudioEngine.getInstance().playEffect( effect );
-        // cc.AudioEngine.getInstance().setEffectVolume( 0.5 );
+    },
+
+    pauseMusic: function(){
+
     },
 
     countTime: function(){
@@ -142,10 +156,16 @@ var GameLayer = cc.LayerColor.extend({
 });
 
 var StartScene = cc.Scene.extend({
+
+    ctor: function( level ){
+        this._super();
+        this.level = level;
+    },
+
     onEnter: function() {
         this._super();
         var layer = new GameLayer();
-        layer.init();
+        layer.init( this.level );
         this.addChild( layer );
     }
 });

@@ -64,8 +64,7 @@ var g_resources = [
     {src: 'res/music/coin8.wav'},
     {src: 'res/music/chinese_baby_sms.mp3'},
     {src: 'res/music/witch_doctor_cute.mp3'},
-    {src: 'res/music/floor.wav'},
-    {src: 'res/music/162453__milton__taratata.wav'}
+    {src: 'res/music/floor.wav'}
 
     //fnt
  

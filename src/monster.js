@@ -13,6 +13,7 @@ var Monster = cc.Sprite.extend({
 		this.randomSide = Math.round( Math.random() );
 		this.velocity = Math.random() + 1.7;
 		this.started = false;
+		this.hittable = true;
 
 		this.movingAction = this.createAnimationAction1();
 
@@ -51,12 +52,14 @@ var Monster = cc.Sprite.extend({
 		}
 
 		//checkHitPlayer
-		if( this.checkPlayerHit() ){
+		if( this.checkPlayerHit() && this.hittable ){
 			console.log("hit");
-			this.floor.playerDie = true;
-			
+			this.floor.life -= 1;
+			this.hittable = false;
+			this.scheduleOnce(this.setHittable, 2);
 			if( this.floor.life <= 0 ){
                 this.unscheduleUpdate();
+                this.floor.playerDie = true;
             }
 		}
 
@@ -64,11 +67,6 @@ var Monster = cc.Sprite.extend({
 		if ( this.getBoundingBoxToWorld().y > 900 ){
 			this.removeFromParent( true );
 		}
-
-		//checkPlayerisAlive?
-		// if( !this.player.isAlive ){
-		// 	this.unscheduleUpdate();
-		// }
 
 		//loop
 		if( position.x <= 10 ){
@@ -88,6 +86,10 @@ var Monster = cc.Sprite.extend({
 			return true;
 		}
 		return false;
+	},
+
+	setHittable: function() {
+		this.hittable = true;
 	},
 
 	createAnimationAction1: function() {

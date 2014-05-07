@@ -1,15 +1,17 @@
 var Player = cc.Sprite.extend({
 
-	ctor: function(floor){
+	ctor: function( floor, level ){
 
 		this._super();
 		this.images = [ 'res/images/player1_1.png', 'res/images/player2_1.png', 'res/images/player3_1.png' ];
 		this.initImage();
+		this.level = level;
 
 		this.setAnchorPoint( cc.p( 0.5, 0 ) );
 		this.gravity = 5;
 		this.floor = floor;
 		this.v = 0;
+		this.velocity = [ 5, 7, 8 ];
 		// this.isAlive = true;
 		this.started = false;
 
@@ -30,11 +32,6 @@ var Player = cc.Sprite.extend({
         animation.setDelayPerUnit( 0.1 );
         return cc.RepeatForever.create( cc.Animate.create( animation ));
     },
-
-    // start: function() {
-    //     this.started = true;
-    //     this.runAction( this.movingAction );
-    // },
 
 	initImage: function(){
 		// var pic = this.images[ Math.round( Math.random() * 2 ) ];
@@ -58,21 +55,12 @@ var Player = cc.Sprite.extend({
 		//out of screen
 		if( position.x < 0 ) {
 			this.setPosition( cc.p( 1170, position.y ) );
-			this.v = -5;
+			this.v = -this.velocity[ this.level ];
 		}
 		if( position.x > 1170 ){
 			this.setPosition( cc.p( 20, position.y ) );
-			this.v = 5;
+			this.v = this.velocity[ this.level ];
 		}
-
-		//check died
-		if( this.floor.playerDie || position.y > 600 || position.y < -100) {
-			// this.floor.playerDie = false;
-			if( this.floor.life <= 0 ){
-                this.unscheduleUpdate();
-            }
-		}
-
 	},
 
 	destoryBox: function(){
@@ -82,11 +70,11 @@ var Player = cc.Sprite.extend({
 
 	walk: function( e ){
 		if( e == 37 ){
-			this.v = -5;
+			this.v = -this.velocity[ this.level ];
 			this.setFlippedX( true );
 		}
 		if( e == 39 ){
-			this.v = 5;
+			this.v = this.velocity[ this.level ];
 			this.setFlippedX( false );
 		}
 	}

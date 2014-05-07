@@ -48,14 +48,6 @@ var Coin = cc.Sprite.extend({
 			this.removeFromParent( true );
 		}
 
-		//loop
-		if( position.x <= 0 ){
-			this.setPosition( cc.p( 1180, position.y ));
-		}
-		else if( position.x >= 1180 ){
-			this.setPosition( cc.p( 10, position.y ) );
-		}
-
 	},
 
 	checkPlayerHit: function(){

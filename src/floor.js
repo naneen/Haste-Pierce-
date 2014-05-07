@@ -1,10 +1,12 @@
 var Floor = cc.Node.extend({
 
-    ctor: function(){
+    ctor: function( level ){
         this._super();
+        this.level = level;
 
         this.lines = []
-        this.v = 1.3;
+        this.velocity = [ 1.3, 1.9, 2.2 ];
+        this.v = this.velocity[ this.level ];
         this.nLine = 1;
         this.isInitLine = false;
 
@@ -73,13 +75,8 @@ var Floor = cc.Node.extend({
     },
 
     checkDie: function(){
-        if( this.playerDie ){
-            this.playerDie = false;
-            this.life -= 1;
-            
-            if( this.life <= 0 ){
-                this.unscheduleUpdate();
-            }
+        if( this.life <= 0 ){
+            this.unscheduleUpdate();
         }
     },
 
