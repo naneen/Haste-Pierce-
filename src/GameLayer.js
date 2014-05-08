@@ -16,13 +16,16 @@ var GameLayer = cc.LayerColor.extend({
         this.initScore();
         this.initBackgound();
 
-        this.bgMusic = "res/music/Peach Gardens.wav";
-        this.gameoverMusic = "res/music/effect_game_fail.mp3";
+        this.bgMusic = "res/music/spare/toy_doll.mp3";
+        this.gameoverMusic = "res/music/spare/hahaha.mp3";
         this.coinMusic = "res/music/coin8.wav";
+        this.dieMusic = "res/music/spare/squeeze-toy-1.mp3";
         this.playMusic( this.bgMusic, true );
+        this.isMute = false;
 
         this.floor.player = this.player;
         this.setKeyboardEnabled( true );
+        this.setMouseEnabled( true );
         this.scheduleUpdate();
 
         return true;
@@ -48,8 +51,13 @@ var GameLayer = cc.LayerColor.extend({
             this.floor.passFloor = false;
         }
 
+        if( this.floor.effectDie ){
+            this.playEffect( this.dieMusic );
+            this.floor.effectDie = false;
+        }
+
         if( this.floor.playerDie && this.floor.life == 0 ){
-            this.floor.playerDie = false;
+            // this.floor.playerDie = false;
             this.shadow.setVisible( true );
             // cc.AudioEngine.getInstance().stopMusic( this.bgMusic );
             this.playMusic( this.gameoverMusic, false );
@@ -60,8 +68,6 @@ var GameLayer = cc.LayerColor.extend({
         }
 
         this.heart.decrease( this.floor.life );
-
-        console.log( 'life:'+ this.floor.life );
     },
 
     initFloor: function(){
@@ -79,7 +85,7 @@ var GameLayer = cc.LayerColor.extend({
 
     initHeart: function(){
         this.heart = new Heart( this );
-        this.heart.setPosition( cc.p( 1050, 550 ) );
+        this.heart.setPosition( cc.p( 1070, 550 ) );
         this.addChild( this.heart, 1 );
     },
 
@@ -108,9 +114,9 @@ var GameLayer = cc.LayerColor.extend({
     },
 
     initMusic: function(){
-        this.butt = cc.Sprite.create( 'res/images/player3_9.png');
-        this.butt.setPosition( cc.p( 1100, 50 ) );
-        // this.butt.setOpacity( 125 );
+        this.butt = cc.Sprite.create( 'res/images/sound_unmute.png');
+        this.butt.setPosition( cc.p( 1150, 40 ) );
+        this.butt.setOpacity( 200 );
         this.addChild( this.butt, 2 );
     },
 
@@ -135,24 +141,47 @@ var GameLayer = cc.LayerColor.extend({
     },
 
     playMusic: function( song, re ){
-        // cc.AudioEngine.getInstance().preloadMusic( song );
-        // cc.AudioEngine.getInstance().playMusic( song , re );
-        // cc.AudioEngine.getInstance().setMusicVolume( 0.5 );
+        cc.AudioEngine.getInstance().preloadMusic( song );
+        cc.AudioEngine.getInstance().playMusic( song , re );
+        cc.AudioEngine.getInstance().setMusicVolume( 0.8 );
     },
 
     playEffect: function( effect ){
-        cc.AudioEngine.getInstance().playEffect( effect );
+        if( !this.isMute ){
+            cc.AudioEngine.getInstance().playEffect( effect );
+        }
     },
 
     pauseMusic: function(){
 
     },
 
-    countTime: function(){
-        date = new Date();
-        hitTime = date.getTime() * 1000;
-        console.log("hitTime"+hitTime);
-        return hitTime;
+    onMouseMoved: function( event ){
+        var loc = event.getLocation();
+        var b = this.butt.getBoundingBoxToWorld();
+
+        if(cc.rectContainsPoint( b, loc ) ){
+            this.butt.initWithFile('res/images/sound_mute.png');
+            this.butt.setOpacity( 200 );
+
+        }else{
+            this.butt.initWithFile('res/images/sound_unmute.png');
+            this.butt.setOpacity( 200 );
+        }
+    },
+
+    onMouseDown: function(event){
+        var loc = event.getLocation();
+        var b = this.butt.getBoundingBoxToWorld();
+
+        if( cc.rectContainsPoint( b, loc ) && !this.isMute ){
+            this.isMute = true;
+            cc.AudioEngine.getInstance().setMusicVolume( 0 );
+        }
+        else if( cc.rectContainsPoint( b, loc ) && this.isMute ){
+            this.isMute = false;
+            cc.AudioEngine.getInstance().setMusicVolume( 0.8 );
+        }
     }
 });
 

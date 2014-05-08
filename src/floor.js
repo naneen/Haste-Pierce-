@@ -12,6 +12,7 @@ var Floor = cc.Node.extend({
 
         this.life = 3;
         this.playerDie = false;
+        this.effectDie = false;
 
         this.player = null;
         this.coinCollected = false;

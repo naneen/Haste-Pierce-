@@ -53,10 +53,11 @@ var Monster = cc.Sprite.extend({
 
 		//checkHitPlayer
 		if( this.checkPlayerHit() && this.hittable ){
-			console.log("hit");
 			this.floor.life -= 1;
 			this.hittable = false;
-			this.scheduleOnce(this.setHittable, 2);
+			this.floor.effectDie = true;
+			this.scheduleOnce( this.setHittable, 2 );
+			
 			if( this.floor.life <= 0 ){
                 this.unscheduleUpdate();
                 this.floor.playerDie = true;
