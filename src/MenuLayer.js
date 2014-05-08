@@ -4,10 +4,11 @@ var MenuLayer = cc.Layer.extend({
 		this._super();
 	},
 
-	init: function( sound ){
+	init: function(){
 		this._super();
         this.setMouseEnabled( true );
         this.level = null;
+        this.isMute = false;
 
         var song = "res/music/chinese_baby_sms.mp3";
         cc.AudioEngine.getInstance().preloadMusic( song );
@@ -40,8 +41,8 @@ var MenuLayer = cc.Layer.extend({
         this.butt3.setOpacity( 125 );
         this.addChild( this.butt3 );
 
-        this.butt = cc.Sprite.create( 'res/images/player3_9.png');
-        this.butt.setPosition( cc.p( 1100, 50 ) );
+        this.butt = cc.Sprite.create( 'res/images/sound_unmute.png');
+        this.butt.setPosition( cc.p( 1150, 40 ) );
         this.butt.setOpacity( 125 );
         this.addChild( this.butt, 2 );
 	},
@@ -72,9 +73,12 @@ var MenuLayer = cc.Layer.extend({
         }
 
         if(cc.rectContainsPoint( b, loc ) ){
-            this.butt.setOpacity( 500 );
+            this.butt.initWithFile('res/images/sound_mute.png');
+            this.butt.setOpacity( 200 );
+
         }else{
-            this.butt.setOpacity( 125 );
+            this.butt.initWithFile('res/images/sound_unmute.png');
+            this.butt.setOpacity( 200 );
         }
     },
 
@@ -83,6 +87,7 @@ var MenuLayer = cc.Layer.extend({
         var b1 = this.butt1.getBoundingBoxToWorld();
         var b2 = this.butt2.getBoundingBoxToWorld();
         var b3 = this.butt3.getBoundingBoxToWorld();
+        var b = this.butt.getBoundingBoxToWorld();
 
         if( cc.rectContainsPoint( b1, loc ) ){
             this.level = 0;
@@ -98,12 +103,21 @@ var MenuLayer = cc.Layer.extend({
             this.level = 2;
             this.onPlay();
         }
+
+        if( cc.rectContainsPoint( b, loc ) && !this.isMute ){
+            this.isMute = true;
+            cc.AudioEngine.getInstance().setMusicVolume( 0 );
+        }
+        else if( cc.rectContainsPoint( b, loc ) && this.isMute ){
+            this.isMute = false;
+            cc.AudioEngine.getInstance().setMusicVolume( 0.8 );
+        }
         
     },
 
     onPlay: function() {
         var director = cc.Director.getInstance();
-        director.replaceScene( cc.TransitionFade.create( 1.5, new StartScene( this.level )));
+        director.replaceScene( cc.TransitionFade.create( 1.5, new DescriptionScene( this.level )));
     }
 });
 

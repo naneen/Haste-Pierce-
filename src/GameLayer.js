@@ -152,21 +152,29 @@ var GameLayer = cc.LayerColor.extend({
         }
     },
 
-    pauseMusic: function(){
-
-    },
-
     onMouseMoved: function( event ){
         var loc = event.getLocation();
         var b = this.butt.getBoundingBoxToWorld();
 
-        if(cc.rectContainsPoint( b, loc ) ){
-            this.butt.initWithFile('res/images/sound_mute.png');
-            this.butt.setOpacity( 200 );
+        if( !this.isMute ){
+            if(cc.rectContainsPoint( b, loc ) ){
+                this.butt.initWithFile('res/images/sound_mute.png');
+                this.butt.setOpacity( 200 );
 
-        }else{
-            this.butt.initWithFile('res/images/sound_unmute.png');
-            this.butt.setOpacity( 200 );
+            }else{
+                this.butt.initWithFile('res/images/sound_unmute.png');
+                this.butt.setOpacity( 200 );
+            }
+        }
+        else{
+            if(cc.rectContainsPoint( b, loc ) ){
+                this.butt.initWithFile('res/images/sound_unmute.png');
+                this.butt.setOpacity( 200 );
+
+            }else{
+                this.butt.initWithFile('res/images/sound_mute.png');
+                this.butt.setOpacity( 200 );
+            }
         }
     },
 
@@ -176,10 +184,12 @@ var GameLayer = cc.LayerColor.extend({
 
         if( cc.rectContainsPoint( b, loc ) && !this.isMute ){
             this.isMute = true;
+            this.butt.initWithFile('res/images/sound_mute.png');
             cc.AudioEngine.getInstance().setMusicVolume( 0 );
         }
         else if( cc.rectContainsPoint( b, loc ) && this.isMute ){
             this.isMute = false;
+            this.butt.initWithFile('res/images/sound_unmute.png');
             cc.AudioEngine.getInstance().setMusicVolume( 0.8 );
         }
     }
