@@ -16,11 +16,12 @@ var GameLayer = cc.LayerColor.extend({
         this.initScore();
         this.initBackgound();
 
-        this.bgMusic = "res/music/spare/toy_doll.mp3";
-        this.gameoverMusic = "res/music/spare/hahaha.mp3";
-        this.coinMusic = "res/music/coin8.wav";
-        this.dieMusic = "res/music/spare/squeeze-toy-1.mp3";
-        this.playMusic( this.bgMusic, true );
+        // this.bgMusic = "res/music/toy_doll.mp3";
+        // this.gameoverMusic = "res/music/hahaha.mp3";
+        // this.coinMusic = "res/music/coin8.wav";
+        // this.dieMusic = "res/music/squeeze-toy-1.mp3";
+        
+        this.playMusic( "res/music/toy_doll.mp3", true );
         this.isMute = false;
 
         this.floor.player = this.player;
@@ -40,7 +41,7 @@ var GameLayer = cc.LayerColor.extend({
         if( this.floor.coinCollected ){
             this.score += 10;
             this.scoreLabel.setString( this.score );
-            this.playEffect( this.coinMusic );
+            this.playEffect( "res/music/coin8.wav" );
             this.floor.coinCollected = false;
         }
 
@@ -52,15 +53,15 @@ var GameLayer = cc.LayerColor.extend({
         }
 
         if( this.floor.effectDie ){
-            this.playEffect( this.dieMusic );
+            this.playEffect( "res/music/squeeze-toy-1.mp3" );
             this.floor.effectDie = false;
         }
 
-        if( this.floor.playerDie && this.floor.life == 0 ){
-            // this.floor.playerDie = false;
+        // if( this.floor.playerDie && this.floor.life == 0 ){
+        if( this.floor.gameOver ){
+            // this.floor.gameOver = true;
             this.shadow.setVisible( true );
-            // cc.AudioEngine.getInstance().stopMusic( this.bgMusic );
-            this.playMusic( this.gameoverMusic, false );
+            this.playMusic( "res/music/hahaha.mp3" , false );
             this.setKeyboardEnabled( false );
             this.floor.unscheduleUpdate();
             this.player.unscheduleUpdate();
@@ -108,7 +109,7 @@ var GameLayer = cc.LayerColor.extend({
         this.addChild( this.scoreLabel, 2 );
         this.scoreLabel.setString( this.score );
 
-        this.scoreBg = cc.Sprite.create( 'res/score3.png' );
+        this.scoreBg = cc.Sprite.create( 'res/images/score3.png' );
         this.scoreBg.setPosition( new cc.p( 100, 550 ) );
         this.addChild( this.scoreBg, 1 );
     },
@@ -121,12 +122,36 @@ var GameLayer = cc.LayerColor.extend({
     },
 
     onKeyDown: function( e ){
-        if( e == 32 )this.player.destoryBox();
-        if( e == 37 || e == 39 ) this.player.walk( e );
-        
+
+        if( e == 32 ){
+            this.player.destoryBox();
+        }
+        else if( e == 37 || e == 39 ){
+            this.player.walk( e );
+        }
+        else if( e == 80 && !this.isPause ){
+            this.player.pause();
+            this.floor.pause();
+            this.isPause = true;
+        }
+        else if( e == 80 && this.isPause ){
+            this.player.resume();
+            this.floor.resume();
+            this.isPause = false;
+        }
+        else if(e == 82){
+            this.restart();
+        }
+
+        //
         if( !this.player.started && !this.floor.started ){
             this.startGame();
         }
+    },
+
+    restart: function(){
+        var director = cc.Director.getInstance();
+        director.replaceScene( cc.TransitionFade.create( 1.5, new MenuScene()));
     },
 
     startGame: function() {

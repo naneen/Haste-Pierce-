@@ -37,7 +37,6 @@ var Coin = cc.Sprite.extend({
 
 		//checkHitPlayer
 		if( this.checkPlayerHit() ){
-			console.log("coin hit");
 			this.floor.coinCollected = true;
 			this.removeFromParent( true );
 			// this.player.isAlive = false;

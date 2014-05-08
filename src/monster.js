@@ -14,6 +14,7 @@ var Monster = cc.Sprite.extend({
 		this.velocity = Math.random() + 1.7;
 		this.started = false;
 		this.hittable = true;
+		this.isResume = true;
 
 		this.movingAction = this.createAnimationAction1();
 
@@ -27,56 +28,70 @@ var Monster = cc.Sprite.extend({
 
 	update: function( dt ){
 		var position = this.getPosition();
-
-		//run animation
-		if( !this.started ){
-			this.started = true;
-        	this.runAction( this.movingAction );
-		}
 		
-		//checkOn floor
-		if( !this.floor.checkOn( this.getBoundingBoxToWorld() ) ){
-			this.setPosition(cc.p(position.x,position.y - this.gravity));
-		}
-		
-		//move
-		else{
-			if( this.randomSide == 0){
-				this.setFlippedX( true );
-				this.velocity = -( Math.random() + 1.7 );
+		if( !this.floor.isPause ){
+			if( !this.isResume ){
+				this.isResume = true;
+				this.runAction( this.movingAction );
 			}
-			else {
-				this.velocity = Math.random() + 1.7;
-			}
-			this.setPosition( cc.p( position.x + this.velocity, position.y ));
-		}
 
-		//checkHitPlayer
-		if( this.checkPlayerHit() && this.hittable ){
-			this.floor.life -= 1;
-			this.hittable = false;
-			this.floor.effectDie = true;
-			this.scheduleOnce( this.setHittable, 2 );
+			//run animation
+			if( !this.started ){
+				this.started = true;
+	        	this.runAction( this.movingAction );
+			}
 			
-			if( this.floor.life <= 0 ){
-                this.unscheduleUpdate();
-                this.floor.playerDie = true;
-            }
-		}
+			//checkOn floor
+			if( !this.floor.checkOn( this.getBoundingBoxToWorld() ) ){
+				this.setPosition(cc.p(position.x,position.y - this.gravity));
+			}
+			
+			//move
+			else{
+				if( this.randomSide == 0){
+					this.setFlippedX( true );
+					this.velocity = -( Math.random() + 1.7 );
+				}
+				else {
+					this.velocity = Math.random() + 1.7;
+				}
+				this.setPosition( cc.p( position.x + this.velocity, position.y ));
+			}
 
-		//remove
-		if ( this.getBoundingBoxToWorld().y > 900 ){
-			this.removeFromParent( true );
-		}
+			//checkHitPlayer
+			if( this.checkPlayerHit() && this.hittable ){
+				this.floor.life -= 1;
+				this.hittable = false;
+				this.floor.effectDie = true;
+				this.scheduleOnce( this.setHittable, 2 );
+				
+				if( this.floor.life <= 0 ){
+	                // this.floor.playerDie = true;
+	                this.floor.gameOver = true;
+	            }
+			}
 
-		//loop
-		if( position.x <= 10 ){
-			this.setPosition( cc.p( 1150, position.y ));
-		}
-		else if( position.x >= 1150 ){
-			this.setPosition( cc.p( 10, position.y ) );
-		}
+			//remove
+			if ( this.getBoundingBoxToWorld().y > 900 ){
+				this.removeFromParent( true );
+			}
 
+			//loop
+			if( position.x <= 10 ){
+				this.setPosition( cc.p( 1150, position.y ));
+			}
+			else if( position.x >= 1150 ){
+				this.setPosition( cc.p( 10, position.y ) );
+			}
+
+			if( this.floor.gameOver ){
+				this.unscheduleUpdate();
+			}
+		}
+		else{
+			this.isResume = false;
+			this.stopAllActions();
+		}
 	},
 
 	checkPlayerHit: function(){

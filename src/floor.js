@@ -13,6 +13,7 @@ var Floor = cc.Node.extend({
         this.life = 3;
         this.playerDie = false;
         this.effectDie = false;
+        this.gameOver = false;
 
         this.player = null;
         this.coinCollected = false;
@@ -31,6 +32,17 @@ var Floor = cc.Node.extend({
                 this.v += 0.0001;
             }
         }
+    },
+
+    pause: function(){
+        this.unscheduleUpdate();
+        this.stopAllActions();
+        this.isPause = true;
+    },
+
+    resume: function(){
+        this.scheduleUpdate();
+        this.isPause = false;
     },
 
     moveFloorUp: function(){

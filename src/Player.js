@@ -61,7 +61,22 @@ var Player = cc.Sprite.extend({
 			this.setPosition( cc.p( 20, position.y ) );
 			this.v = this.velocity[ this.level ];
 		}
+		if( position.y < -80 || position.y > 680 ){
+			this.floor.gameOver = true;
+		}
 	},
+
+	pause: function(){
+        this.unscheduleUpdate();
+        this.stopAllActions();
+        this.isPause = true;
+    },
+
+    resume: function(){
+        this.scheduleUpdate();
+        this.runAction( this.movingAction );
+        this.isPause = false;
+    },
 
 	destoryBox: function(){
 		var pos = this.getBoundingBoxToWorld();

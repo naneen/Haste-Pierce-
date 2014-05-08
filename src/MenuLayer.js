@@ -13,6 +13,7 @@ var MenuLayer = cc.Layer.extend({
         var song = "res/music/chinese_baby_sms.mp3";
         cc.AudioEngine.getInstance().preloadMusic( song );
         cc.AudioEngine.getInstance().playMusic( song , true );
+        cc.AudioEngine.getInstance().setMusicVolume( 0.5 );
 
         var director = cc.Director.getInstance();
         var winsize = director.getWinSize();
@@ -53,21 +54,29 @@ var MenuLayer = cc.Layer.extend({
         var b2 = this.butt2.getBoundingBoxToWorld();
         var b3 = this.butt3.getBoundingBoxToWorld();
         var b = this.butt.getBoundingBoxToWorld();
+        this.onButt = false;
 
         if(cc.rectContainsPoint( b1, loc ) ){
             this.butt1.setOpacity( 500 );
+            if( !this.onButt ){
+                this.playEffect();
+                this.onButt = true;
+            }
         }else{
             this.butt1.setOpacity( 125 );
+            this.onButt = false;
         }
 
         if(cc.rectContainsPoint( b2, loc ) ){
             this.butt2.setOpacity( 500 );
+            this.playEffect();
         }else{
             this.butt2.setOpacity( 125 );
         }
 
         if(cc.rectContainsPoint( b3, loc ) ){
             this.butt3.setOpacity( 500 );
+            this.playEffect();
         }else{
             this.butt3.setOpacity( 125 );
         }
@@ -75,7 +84,7 @@ var MenuLayer = cc.Layer.extend({
         if(cc.rectContainsPoint( b, loc ) ){
             this.butt.initWithFile('res/images/sound_mute.png');
             this.butt.setOpacity( 200 );
-
+            this.playEffect();
         }else{
             this.butt.initWithFile('res/images/sound_unmute.png');
             this.butt.setOpacity( 200 );
@@ -88,6 +97,7 @@ var MenuLayer = cc.Layer.extend({
         var b2 = this.butt2.getBoundingBoxToWorld();
         var b3 = this.butt3.getBoundingBoxToWorld();
         var b = this.butt.getBoundingBoxToWorld();
+        var onButt = false;
 
         if( cc.rectContainsPoint( b1, loc ) ){
             this.level = 0;
@@ -113,6 +123,12 @@ var MenuLayer = cc.Layer.extend({
             cc.AudioEngine.getInstance().setMusicVolume( 0.8 );
         }
         
+    },
+
+    playEffect: function(){
+        // if( !this.isMute ){
+        //     cc.AudioEngine.getInstance().playEffect( "res/music/blop.mp3" );
+        // }
     },
 
     onPlay: function() {

@@ -59,10 +59,10 @@ var g_resources = [
     {src: 'res/images/gameOver.png' },
  
     //plist
-    {src: 'res/music/spare/toy_doll.mp3'},
-    {src: 'res/music/spare/hahaha.mp3'},
+    {src: 'res/music/toy_doll.mp3'},
+    {src: 'res/music/hahaha.mp3'},
     {src: 'res/music/coin8.wav'},
-    {src: 'res/music/spare/squeeze-toy-1.mp3'},
+    {src: 'res/music/squeeze-toy-1.mp3'},
     {src: 'res/music/chinese_baby_sms.mp3'},
     {src: 'res/music/floor.wav'}
 
