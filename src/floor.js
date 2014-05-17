@@ -19,6 +19,7 @@ var Floor = cc.Node.extend({
         this.coinCollected = false;
         this.passFloor = false;
         this.started = false;
+        this.isPause = false;
     },
 
     update: function( dt ){

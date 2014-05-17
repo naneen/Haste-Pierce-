@@ -23,6 +23,7 @@ var GameLayer = cc.LayerColor.extend({
         
         this.playMusic( "res/music/toy_doll.mp3", true );
         this.isMute = false;
+        this.isPause = false;
 
         this.floor.player = this.player;
         this.setKeyboardEnabled( true );
@@ -38,18 +39,20 @@ var GameLayer = cc.LayerColor.extend({
                 this.floor.isInitLine = true;
         }
 
-        if( this.floor.coinCollected ){
-            this.score += 10;
-            this.scoreLabel.setString( this.score );
-            this.playEffect( "res/music/coin8.wav" );
-            this.floor.coinCollected = false;
-        }
+        if( !this.isPause ){
+            if( this.floor.coinCollected ){
+                this.score += 10;
+                this.scoreLabel.setString( this.score );
+                this.playEffect( "res/music/coin8.wav" );
+                this.floor.coinCollected = false;
+            }
 
-        if( this.floor.passFloor ){
-            this.score += 5;
-            this.scoreLabel.setString( this.score );
-            this.playEffect( 'res/music/floor.wav' );
-            this.floor.passFloor = false;
+            if( this.floor.passFloor ){
+                this.score += 5;
+                this.scoreLabel.setString( this.score );
+                this.playEffect( 'res/music/floor.wav' );
+                this.floor.passFloor = false;
+            }
         }
 
         if( this.floor.effectDie ){
@@ -62,7 +65,7 @@ var GameLayer = cc.LayerColor.extend({
             // this.floor.gameOver = true;
             this.shadow.setVisible( true );
             this.playMusic( "res/music/hahaha.mp3" , false );
-            this.setKeyboardEnabled( false );
+            // this.setKeyboardEnabled( false );
             this.floor.unscheduleUpdate();
             this.player.unscheduleUpdate();
             this.unscheduleUpdate();
@@ -123,28 +126,26 @@ var GameLayer = cc.LayerColor.extend({
 
     onKeyDown: function( e ){
 
-        if( e == 32 ){
+        if(e == 82){
+            this.restart();
+        }
+        else if( e == 32 ){
             this.player.destoryBox();
         }
         else if( e == 37 || e == 39 ){
             this.player.walk( e );
-        }
-        else if( e == 80 && !this.isPause ){
-            this.player.pause();
-            this.floor.pause();
-            this.isPause = true;
         }
         else if( e == 80 && this.isPause ){
             this.player.resume();
             this.floor.resume();
             this.isPause = false;
         }
-        else if(e == 82){
-            this.restart();
+        else if( e == 80 && !this.isPause ){
+            this.player.pause();
+            this.floor.pause();
+            this.isPause = true;
         }
-
-        //
-        if( !this.player.started && !this.floor.started ){
+        else if( !this.player.started && !this.floor.started ){
             this.startGame();
         }
     },

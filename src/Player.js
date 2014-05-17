@@ -14,6 +14,7 @@ var Player = cc.Sprite.extend({
 		this.velocity = [ 5, 7, 8 ];
 		// this.isAlive = true;
 		this.started = false;
+		this.isPause = false;
 
 		this.movingAction = this.createAnimationAction1();
 	},
